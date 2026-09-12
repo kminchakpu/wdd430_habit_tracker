@@ -1,4 +1,6 @@
-Project name: Habit Tracker
+Project name: 
+Habit Tracker
+
 Project description
 =============================
 
