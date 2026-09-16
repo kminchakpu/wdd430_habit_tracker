@@ -47,7 +47,7 @@ export default function Navbar() {
             key={link.href}
             href={link.href}
             aria-current={active ? "page" : undefined}
-            className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+            className={`rounded-lg px-3 py-2 text-lg font-medium transition-colors ${
               active
                 ? "bg-emerald-50 text-emerald-700"
                 : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
