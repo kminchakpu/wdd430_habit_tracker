@@ -1,15 +1,18 @@
-"use client"
+"use client";
 
 interface SavingsProgressProps {
-    amount: number;
-    goal: number;
+  amount: number;
+  goal: number;
 }
 
 export default function SavingsProgress({
-    amount, goal
+  amount,
+  goal,
 }: SavingsProgressProps) {
-    const progress = Math.min((amount / goal) * 100, 100);
-      return (
+  const safeGoal = goal > 0 ? goal : 0;
+  const progress = safeGoal > 0 ? Math.min((amount / safeGoal) * 100, 100) : 0;
+
+  return (
     <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
       <div className="flex justify-between items-center mb-2">
         <span className="text-slate-900 text-sm font-semibold">
@@ -29,11 +32,13 @@ export default function SavingsProgress({
       </div>
 
       <p className="text-slate-500 text-xs mt-2">
-        ${amount.toLocaleString("en-US", {
+        $
+        {amount.toLocaleString("en-US", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         })}{" "}
-        of ${goal.toLocaleString("en-US", {
+        of $
+        {safeGoal.toLocaleString("en-US", {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         })}
