@@ -6,8 +6,7 @@ interface TrendSummaryData {
   month: string;
   savings: number;
   expenses: number;
-  health: number;
-  streak: number;
+
 }
 
 interface TrendSummaryProps {
@@ -21,8 +20,7 @@ export default function TrendSummary({ data }: TrendSummaryProps) {
       <YAxis />
       <Line dataKey="savings" />
       <Line dataKey="expenses" />
-      <Line dataKey="health" />
-      <Line dataKey="streak" />
+
     </LineChart>
   );
 }

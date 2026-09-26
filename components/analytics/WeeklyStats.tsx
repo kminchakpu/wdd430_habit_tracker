@@ -7,8 +7,6 @@ interface WeeklyData {
   income: number;
   expenses: number;
   savings: number;
-  health: number;
-  streak: number;
 }
 
 interface WeeklyChartProps {
@@ -23,8 +21,6 @@ export default function WeeklyStats({ data }: WeeklyChartProps) {
       <Bar dataKey="income" />
       <Bar dataKey="expenses" />
       <Bar dataKey="savings" />
-      <Bar dataKey="health" />
-      <Bar dataKey="streak" />
     </BarChart>
   );
 }

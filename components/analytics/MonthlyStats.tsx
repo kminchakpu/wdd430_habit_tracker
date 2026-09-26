@@ -7,8 +7,7 @@ interface MonthlyData {
   income: number;
   expenses: number;
   savings: number;
-  health: number;
-  streak: number;
+
 }
 
 interface MonthlyChartProps {
@@ -22,9 +21,7 @@ export default function MonthlyStats({ data }: MonthlyChartProps) {
       <YAxis />
       <Bar dataKey="income" />
       <Bar dataKey="expenses" />
-      <Bar dataKey="savings" />
-      <Bar dataKey="health" />
-      <Bar dataKey="streak" />
+      <Bar dataKey="savings" />      
     </BarChart>
   );
 }
