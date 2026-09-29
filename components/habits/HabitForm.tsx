@@ -6,7 +6,7 @@ interface HabitFormProps {
 
 const HabitForm = ({ mode }: HabitFormProps) => {
   return (
-    <div className="bg-slate-100 py-16 md:py-20 lg:py-24">
+    <div className="overflow-hidden rounded-2xl bg-slate-100 py-16 md:py-20 lg:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <h1 className="mb-6 font-play text-3xl font-bold text-slate-900 sm:text-4xl">
