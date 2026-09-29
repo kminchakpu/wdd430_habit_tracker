@@ -1,80 +1,57 @@
 import HabitForm from "@/components/habits/HabitForm";
-import HabitCard from "@/components/habits/HabitCard";
 import HabitList from "@/components/habits/HabitList";
-import HabitDetails from "@/components/habits/HabitDetails";
 import HabitStreak from "@/components/habits/HabitStreak";
 import HabitProgress from "@/components/habits/HabitProgress";
-import HabitCalendar from "@/components/habits/HabitCalendar";
 
+export const metadata = {
+  title: "Habits | Habit Tracker",
+  description: "Track habits, build streaks, and improve consistency.",
+};
 
 export default function HabitsPage() {
   return (
-    <main className="space-y-12 p-8">
-          <HabitForm mode="create" />
-          
-          <HabitForm mode="edit" />
+    <div className="space-y-8">
+      {/* Page Header */}
+      <section>
+        <h1 className="text-3xl font-bold text-slate-900">
+          Habit Tracker
+        </h1>
 
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            <HabitCard
-              name="Exercise"
-              category="Health"
-              frequency="Daily"
-              currentStreak={5}
-              longestStreak={10}
-              completionRate={80}
-            />
-            <HabitCard
-              name="Drink Water"
-              category="Health"
-              frequency="Daily"
-              currentStreak={3}
-              longestStreak={7}
-              completionRate={60}
-              />
-            <HabitCard
-              name="Save Money"
-              category="Finance"
-              frequency="Weekly"
-              currentStreak={2}
-              longestStreak={5}
-              completionRate={40}
-            />
-          </div>
+        <p className="mt-2 text-slate-600">
+          Build healthy routines, track streaks, and measure
+          your progress over time.
+        </p>
+      </section>
 
-          <HabitList />
-          
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3"><HabitDetails
-            name="Exercise"
-            description="Daily exercise routine to stay fit."
-            category="Health"
-            frequency="Daily"
-            goal="Maintain a consistent exercise routine."
-            />
-          </div>
+      {/* Quick Stats */}
+      <section className="grid gap-6 md:grid-cols-2">
+        <HabitStreak />
+        <HabitProgress />
+      </section>
 
-          
+      {/* Add Habit */}
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 className="mb-4 text-xl font-semibold text-slate-900">
+          Create New Habit
+        </h2>
 
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            <HabitStreak
-                currentStreak={5}
-                longestStreak={12}
-            />
-            </div>
-          
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            <HabitProgress
-              completionRate={80}
-              completedDays={20}
-              totalDays={25}
-            />
-          </div>
-          
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                <HabitCalendar
-                    completedDays={[1, 2, 3, 5, 8, 13, 21]}
-                />
-            </div>
-    </main>
+        <HabitForm />
+      </section>
+
+      {/* Habit List */}
+      <section>
+        <div className="mb-4">
+          <h2 className="text-2xl font-semibold text-slate-900">
+            My Habits
+          </h2>
+
+          <p className="text-slate-600">
+            Track your daily, weekly, and long-term goals.
+          </p>
+        </div>
+
+        <HabitList />
+      </section>
+    </div>
   );
 }
-
