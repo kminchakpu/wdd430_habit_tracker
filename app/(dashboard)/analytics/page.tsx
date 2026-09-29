@@ -301,8 +301,7 @@ export default function AnalyticsPage() {
       )}
 
       <p className="mt-6 text-xs text-slate-500">
-        These charts currently use sample data and are not yet connected to your
-        saved records.
+        These charts currently use sample data
       </p>
     </main>
   );
