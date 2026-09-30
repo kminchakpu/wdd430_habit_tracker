@@ -75,7 +75,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-950 px-4 py-10">
+    <div className="flex min-h-screen items-center justify-center bg-[#1d2939] px-4 py-10">
       <div className="w-full max-w-md">
         <div className="rounded-2xl bg-white p-8 shadow-2xl">
           <div className="mb-8 text-center">
