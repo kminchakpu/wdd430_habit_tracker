@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Play, Poppins } from "next/font/google";
 import "./globals.css";
-
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { getAuthenticatedUserId } from "@/lib/auth";
 
 const play = Play({
   variable: "--font-play",
@@ -18,19 +18,41 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Habit Tracker App",
+  title: {
+    default: "Habit Tracker",
+    template: "%s | Habit Tracker",
+  },
   description:
-    "Habit Tracker is a full-stack web application that helps users build positive habits while tracking their daily activities and personal expenses.",
+    "Build healthier habits, track your daily activities, and manage your personal finances with Habit Tracker.",
+  openGraph: {
+    title: "Habit Tracker",
+    description:
+      "Build healthier habits, track your daily activities, and manage your personal finances with Habit Tracker.",
+    type: "website",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Habit Tracker - Healthier habits. Smarter finances.",
+      },
+    ],
+  },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({
+  children,
+}: LayoutProps<"/">) {
+  const userId = await getAuthenticatedUserId();
+  const isAuthenticated = Boolean(userId);
+
   return (
     <html
       lang="en"
       className={`${play.variable} ${poppins.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Header />
+        <Header isAuthenticated={isAuthenticated} />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>
