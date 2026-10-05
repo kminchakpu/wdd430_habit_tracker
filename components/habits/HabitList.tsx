@@ -1,47 +1,60 @@
 import HabitCard from "./HabitCard";
 
-const habits = [
+const trackers = [
   {
-    id: 1,
+    id: "exercise",
     name: "Exercise",
     category: "Health",
-    frequency: "Daily",
-    currentStreak: 5,
-    longestStreak: 10,
-    completionRate: 80,
+    href: "/exercise",
+    description: "description"
   },
   {
-    id: 2,
-    name: "Drink Water",
+    id: "water",
+    name: "Water Intake",
     category: "Health",
-    frequency: "Daily",
-    currentStreak: 3,
-    longestStreak: 7,
-    completionRate: 60,
+    href: "/water",
+    description: "description"
   },
   {
-    id: 3,
-    name: "Save Money",
+    id: "meals",
+    name: "Meals",
+    category: "Nutrition",
+    href: "/meals",
+    description: "description"
+  },
+  {
+    id: "income",
+    name: "Income",
     category: "Finance",
-    frequency: "Weekly",
-    currentStreak: 2,
-    longestStreak: 5,
-    completionRate: 40,
+    href: "/income",
+    description: "description"
+  },
+  {
+    id: "expenses",
+    name: "Expenses",
+    category: "Finance",
+    href: "/expenses",
+    description: "description"
+  },
+  {
+    id: "savings",
+    name: "Savings",
+    category: "Finance",
+    href: "/savings",
+    description: "description"
   },
 ];
 
 export default function HabitList() {
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-      {habits.map((habit) => (
+      {trackers.map((tracker) => (
         <HabitCard
-          key={habit.id}
-          name={habit.name}
-          category={habit.category}
-          frequency={habit.frequency}
-          currentStreak={habit.currentStreak}
-          longestStreak={habit.longestStreak}
-          completionRate={habit.completionRate}
+          key={tracker.id}
+          name={tracker.name}
+          category={tracker.category}
+          href={tracker.href}
+          description={tracker.description}
         />
       ))}
     </div>

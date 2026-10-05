@@ -11,18 +11,18 @@ export default function HabitProgress({
 }: HabitProgressProps) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 className="text-xl font-semibold text-slate-900">
-        Progress
+      <h2 className="font-play text-xl font-bold text-slate-900">
+        Progress Overview
       </h2>
 
       <p className="mt-1 text-sm text-slate-500">
-        Overall habit completion
+        Monitor activity across all trackers.
       </p>
 
       <div className="mt-5">
         <div className="mb-2 flex justify-between">
           <span className="text-sm text-slate-500">
-            Completion Rate
+            Activity Rate
           </span>
 
           <span className="font-medium text-slate-900">
@@ -43,7 +43,7 @@ export default function HabitProgress({
       <div className="mt-5 grid grid-cols-2 gap-3">
         <div className="rounded-xl bg-slate-100 p-4 text-center">
           <p className="text-xs text-slate-500">
-            Completed
+            Active Days
           </p>
 
           <p className="mt-1 text-lg font-semibold text-emerald-600">

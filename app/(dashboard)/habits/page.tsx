@@ -2,13 +2,49 @@ import HabitForm from "@/components/habits/HabitForm";
 import HabitList from "@/components/habits/HabitList";
 import HabitStreak from "@/components/habits/HabitStreak";
 import HabitProgress from "@/components/habits/HabitProgress";
+import HabitDetails from "@/components/habits/HabitDetails";
+import HabitCalendar from "@/components/habits/HabitCalendar";
+import { prisma } from "@/lib/prisma";
 
 export const metadata = {
-  title: "Habits | Habit Tracker",
-  description: "Track habits, build streaks, and improve consistency.",
+  title: "Trackers | Habit Tracker",
+  description:
+    "Monitor health and financial activity, track progress, and build consistency.",
 };
 
-export default function HabitsPage() {
+export default async function HabitsPage() {
+  const exerciseCount =
+    await prisma.exerciseRecord.count();
+
+  const waterCount =
+    await prisma.waterIntakeRecord.count();
+
+  const mealCount =
+    await prisma.mealRecord.count();
+
+  const incomeCount =
+    await prisma.incomeRecord.count();
+
+  const expenseCount =
+    await prisma.expenseRecord.count();
+
+  const savingsCount =
+    await prisma.savingsRecord.count();
+
+  const healthRecords =
+    exerciseCount +
+    waterCount +
+    mealCount;
+
+  const financeRecords =
+    incomeCount +
+    expenseCount +
+    savingsCount;
+
+  const totalRecords =
+    healthRecords +
+    financeRecords;
+  
   return (
     <div className="mx-auto max-w-7xl space-y-16 px-4 py-8 sm:px-6 lg:px-8">
       {/* Page Header */}
@@ -18,40 +54,17 @@ export default function HabitsPage() {
         </h1>
 
         <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-cyan-100">
-          Build healthy routines, track streaks, and measure your
-          progress over time.
+          Monitor health and financial activities, build consistency,
+            and track your long-term progress.
         </p>
       </section>
 
-      <section className="grid gap-6 md:grid-cols-3">
-        <div className="rounded-2xl bg-emerald-600 p-6 text-white">
-        <p className="text-sm text-white/80">
-            📚 Active Habits
-          </p>
-
-          <h3 className="mt-2 text-3xl font-bold">
-            3
-          </h3>
-        </div>
-
-        <div className="rounded-2xl bg-slate-900 p-6 text-white">
-          <p className="text-sm text-white/80">
-            🔥 Current Streak
-          </p>
-
-          <h3 className="mt-2 text-3xl font-bold">
-            5 Days
-          </h3>
-        </div>
-
-        <div className="rounded-2xl bg-rose-600 p-6 text-white">
-          <p className="text-sm text-white/80">
-            ✅ Completion Rate
-          </p>
-          <h3 className="mt-2 text-3xl font-bold">
-            80%
-          </h3>
-        </div>
+      <section>
+        <HabitDetails
+          totalRecords={totalRecords}
+          healthRecords={healthRecords}
+          financeRecords={financeRecords}
+        />
       </section>
 
       <section className="grid gap-6 md:grid-cols-2">
@@ -67,9 +80,13 @@ export default function HabitsPage() {
             />
       </section>
 
+      <section>
+        <HabitCalendar completedDays={[1, 2, 3, 5, 8, 13, 21]} />
+      </section>  
+
       {/* Add Habit */}
       <section>
-        <HabitForm mode="create" />
+        <HabitForm/>
       </section>
 
       {/* Habit List */}
