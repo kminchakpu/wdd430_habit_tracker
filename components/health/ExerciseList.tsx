@@ -2,8 +2,9 @@ import ExerciseCard from "./ExerciseCard";
 
 interface Exercise {
   id: string;
-  type: string;
+  name: string;
   duration: number;
+  calories: number;
   date: string;
   notes?: string;
 }

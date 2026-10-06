@@ -1,0 +1,221 @@
+Final Habit Tracker Project Structure
+
+habit-tracker/
+│
+├── app/
+│   │
+│   ├── (auth)/
+│   │   ├── login/
+│   │   │   └── page.tsx
+│   │   │
+│   │   └── register/
+│   │       └── page.tsx
+│   │
+│   ├── (dashboard)/
+│   │   ├── dashboard/
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── habits/
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── meals/
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── exercise/
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── water/
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── income/
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── expenses/
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── savings/
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── analytics/
+│   │   │   └── page.tsx
+│   │   │
+│   │   └── profile/
+│   │       └── page.tsx
+│   │
+│   ├── api/
+│   │   │
+│   │   ├── auth/
+│   │   │   ├── register/
+│   │   │   │   └── route.ts
+│   │   │   ├── login/
+│   │   │   │   └── route.ts
+│   │   │   ├── logout/
+│   │   │   │   └── route.ts
+│   │   │   └── profile/
+│   │   │       └── route.ts
+│   │   │
+│   │   ├── meals/
+│   │   │   └── route.ts
+│   │   │
+│   │   ├── exercise/
+│   │   │   └── route.ts
+│   │   │
+│   │   ├── water/
+│   │   │   └── route.ts
+│   │   │
+│   │   ├── income/
+│   │   │   └── route.ts
+│   │   │
+│   │   ├── expenses/
+│   │   │   └── route.ts
+│   │   │
+│   │   ├── savings/
+│   │   │   └── route.ts
+│   │   │
+│   │   ├── habits/
+│   │   │   └── route.ts
+│   │   │
+│   │   └── dashboard/
+│   │       ├── route.ts
+│   │       ├── stats/
+│   │       │   └── route.ts
+│   │       └── streaks/
+│   │           └── route.ts
+│   │
+│   ├── page.tsx
+│   ├── layout.tsx
+│   ├── loading.tsx
+│   ├── error.tsx
+│   └── not-found.tsx
+│
+├── components/
+│   │
+│   ├── layout/
+│   │   ├── Header.tsx
+│   │   ├── Navbar.tsx
+│   │   ├── MobileMenu.tsx
+│   │   └── Footer.tsx
+│   │
+│   ├── auth/
+│   │   ├── LoginForm.tsx
+│   │   ├── RegisterForm.tsx
+│   │   └── ProfileForm.tsx
+│   │
+│   ├── dashboard/
+│   │   ├── DashboardStats.tsx
+│   │   ├── HealthSummary.tsx
+│   │   ├── FinancialSummary.tsx
+│   │   ├── SavingsSummary.tsx
+│   │   ├── RecentActivity.tsx
+│   │   ├── DashboardCharts.tsx
+│   │   └── PeriodSelector.tsx
+│   │
+│   ├── habits/
+│   │   ├── HabitCard.tsx
+│   │   ├── HabitList.tsx
+│   │   ├── HabitForm.tsx
+│   │   ├── HabitDetails.tsx
+│   │   ├── HabitStreak.tsx
+│   │   ├── HabitCalendar.tsx
+│   │   └── HabitProgress.tsx
+│   │
+│   ├── health/
+│   │   ├── MealForm.tsx
+│   │   ├── MealCard.tsx
+│   │   ├── MealList.tsx
+│   │   ├── ExerciseForm.tsx
+│   │   ├── ExerciseCard.tsx
+│   │   ├── ExerciseList.tsx
+│   │   ├── WaterForm.tsx
+│   │   ├── WaterCard.tsx
+│   │   └── WaterSummary.tsx
+│   │
+│   ├── finance/
+│   │   ├── IncomeForm.tsx
+│   │   ├── IncomeCard.tsx
+│   │   ├── IncomeList.tsx
+│   │   ├── ExpenseForm.tsx
+│   │   ├── ExpenseCard.tsx
+│   │   ├── ExpenseList.tsx
+│   │   ├── ExpenseFilters.tsx
+│   │   ├── SavingsForm.tsx
+│   │   ├── SavingsCard.tsx
+│   │   ├── SavingsList.tsx
+│   │   └── SavingsProgress.tsx
+│   │
+│   ├── analytics/
+│   │   ├── HealthProgressChart.tsx
+│   │   ├── FinancialChart.tsx
+│   │   ├── SpendingChart.tsx
+│   │   ├── SavingsChart.tsx
+│   │   ├── HabitStreakChart.tsx
+│   │   ├── WeeklyStats.tsx
+│   │   ├── MonthlyStats.tsx
+│   │   └── TrendSummary.tsx
+│   │
+│   └── ui/
+│       ├── Button.tsx
+│       ├── Input.tsx
+│       ├── Select.tsx
+│       ├── Modal.tsx
+│       ├── Card.tsx
+│       ├── Loading.tsx
+│       ├── EmptyState.tsx
+│       ├── ErrorMessage.tsx
+│       └── ConfirmDialog.tsx
+│
+├── lib/
+│   ├── prisma.ts
+│   ├── auth.ts
+│   ├── validation.ts
+│   ├── calculations.ts
+│   ├── dashboard.ts
+│   ├── streaks.ts
+│   └── utils.ts
+│
+├── prisma/
+│   ├── schema.prisma
+│   └── migrations/
+│
+├── types/
+│   ├── auth.ts
+│   ├── habit.ts
+│   ├── health.ts
+│   ├── finance.ts
+│   ├── dashboard.ts
+│   └── analytics.ts
+│
+├── public/
+│   ├── images/
+│   └── icons/
+│
+├── tests/
+│   ├── unit/
+│   │   ├── calculations.test.ts
+│   │   ├── streaks.test.ts
+│   │   └── validation.test.ts
+│   │
+│   ├── api/
+│   │   ├── auth.test.ts
+│   │   ├── meals.test.ts
+│   │   ├── exercise.test.ts
+│   │   ├── water.test.ts
+│   │   ├── income.test.ts
+│   │   ├── expenses.test.ts
+│   │   ├── savings.test.ts
+│   │   └── dashboard.test.ts
+│   │
+│   └── components/
+│       ├── dashboard.test.tsx
+│       ├── habit-form.test.tsx
+│       └── expense-form.test.tsx
+│
+├── .env
+├── .env.example
+├── .gitignore
+├── eslint.config.mjs
+├── next.config.ts
+├── package.json
+├── postcss.config.mjs
+├── tsconfig.json
+└── README.md

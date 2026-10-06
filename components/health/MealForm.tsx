@@ -26,6 +26,7 @@ export default function MealForm({
   isLoading = false,
 }: MealFormProps) {
   const [form, setForm] = useState<MealFormData>({
+    id: meal?.id,
     name: meal?.name ?? "",
     calories: meal?.calories ?? 0,
     date: meal?.date ?? new Date().toISOString().split("T")[0],

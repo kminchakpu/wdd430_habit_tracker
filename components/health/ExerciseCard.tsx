@@ -1,7 +1,8 @@
 interface ExerciseCardProps {
   id: string;
-  type: string;
+  name: string;
   duration: number;
+  calories: number;
   date: string;
   notes?: string;
   onEdit?: (id: string) => void;
@@ -10,8 +11,9 @@ interface ExerciseCardProps {
 
 export default function ExerciseCard({
   id,
-  type,
+  name,
   duration,
+  calories,
   date,
   notes,
   onEdit,
@@ -20,9 +22,9 @@ export default function ExerciseCard({
   return (
     <div className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-100 p-4">
       <div>
-        <h4 className="font-semibold text-slate-900">{type}</h4>
+        <h4 className="font-semibold text-slate-900">{name}</h4>
         <p className="text-sm text-slate-500">
-          {duration} min • {new Date(date).toLocaleDateString()}
+          {duration} min • {calories} cal • {new Date(date).toLocaleDateString()}
         </p>
         {notes && <p className="mt-1 text-xs text-slate-500">{notes}</p>}
       </div>

@@ -6,8 +6,9 @@ import Input from "@/components/ui/Input";
 
 export interface ExerciseFormData {
   id?: string;
-  type: string;
+  name: string;
   duration: number; // minutes
+  calories: number;
   date: string;
   notes?: string;
 }
@@ -26,8 +27,10 @@ export default function ExerciseForm({
   isLoading = false,
 }: ExerciseFormProps) {
   const [form, setForm] = useState<ExerciseFormData>({
-    type: exercise?.type ?? "",
+    id: exercise?.id,
+    name: exercise?.name ?? "",
     duration: exercise?.duration ?? 0,
+    calories: exercise?.calories ?? 0,
     date: exercise?.date ?? new Date().toISOString().split("T")[0],
     notes: exercise?.notes ?? "",
   });
@@ -35,8 +38,9 @@ export default function ExerciseForm({
 
   const validate = () => {
     const e: Record<string, string> = {};
-    if (!form.type.trim()) e.type = "Exercise type is required";
+    if (!form.name.trim()) e.name = "Exercise name is required";
     if (form.duration <= 0) e.duration = "Duration must be greater than 0";
+    if (form.calories < 0) e.calories = "Calories cannot be negative";
     if (!form.date) e.date = "Date is required";
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -58,18 +62,18 @@ export default function ExerciseForm({
       </h3>
 
       <div>
-        <label htmlFor="ex-type" className="block text-sm font-semibold text-slate-900 mb-2">
-          Exercise Type
+        <label htmlFor="ex-name" className="block text-sm font-semibold text-slate-900 mb-2">
+          Exercise Name
         </label>
         <Input
-          id="ex-type"
+          id="ex-name"
           placeholder="e.g. Running, Yoga"
-          value={form.type}
-          onChange={(e) => setForm({ ...form, type: e.target.value })}
-          error={errors.type}
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          error={errors.name}
           disabled={isLoading}
         />
-        {errors.type && <p className="mt-1 text-xs text-rose-600">{errors.type}</p>}
+        {errors.name && <p className="mt-1 text-xs text-rose-600">{errors.name}</p>}
       </div>
 
       <div>
@@ -86,6 +90,22 @@ export default function ExerciseForm({
           disabled={isLoading}
         />
         {errors.duration && <p className="mt-1 text-xs text-rose-600">{errors.duration}</p>}
+      </div>
+
+      <div>
+        <label htmlFor="ex-calories" className="block text-sm font-semibold text-slate-900 mb-2">
+          Calories Burned
+        </label>
+        <Input
+          id="ex-calories"
+          type="number"
+          min="0"
+          value={form.calories}
+          onChange={(e) => setForm({ ...form, calories: Number(e.target.value) })}
+          error={errors.calories}
+          disabled={isLoading}
+        />
+        {errors.calories && <p className="mt-1 text-xs text-rose-600">{errors.calories}</p>}
       </div>
 
       <div>

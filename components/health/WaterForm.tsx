@@ -26,6 +26,7 @@ export default function WaterForm({
   unit = "oz",
 }: WaterFormProps) {
   const [form, setForm] = useState<WaterFormData>({
+    id: water?.id,
     amount: water?.amount ?? 0,
     date: water?.date ?? new Date().toISOString().split("T")[0],
   });
