@@ -1,70 +1,43 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { InputHTMLAttributes } from "react";
 
-type ButtonVariant =
-  | "primary"
-  | "secondary"
-  | "danger"
-  | "outline";
-
-type ButtonSize =
-  | "sm"
-  | "md"
-  | "lg";
-
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  isLoading?: boolean;
-  fullWidth?: boolean;
+interface InputProps
+  extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  error?: string;
 }
 
-export default function Button({
-  children,
-  variant = "primary",
-  size = "md",
-  isLoading = false,
-  fullWidth = false,
-  disabled,
+export default function Input({
+  label,
+  error,
+  id,
   className = "",
   ...props
-}: ButtonProps) {
-  const baseStyles =
-    "inline-flex items-center justify-center rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
-
-  const variantStyles: Record<ButtonVariant, string> = {
-    primary:
-      "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
-    secondary:
-      "bg-slate-200 text-slate-900 hover:bg-slate-300 focus:ring-slate-400",
-    danger:
-      "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
-    outline:
-      "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 focus:ring-blue-500",
-  };
-
-  const sizeStyles: Record<ButtonSize, string> = {
-    sm: "px-3 py-2 text-sm",
-    md: "px-4 py-3 text-sm",
-    lg: "px-6 py-3.5 text-base",
-  };
-
+}: InputProps) {
   return (
-    <button
-      disabled={disabled || isLoading}
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${
-        fullWidth ? "w-full" : ""
-      } ${className}`}
-      {...props}
-    >
-      {isLoading && (
-        <span
-          className="mr-2 size-4 animate-spin rounded-full border-2 border-current border-t-transparent"
-          aria-hidden="true"
-        />
+    <div className="w-full">
+      {label && (
+        <label
+          htmlFor={id}
+          className="mb-2 block text-sm font-medium text-slate-900"
+        >
+          {label}
+        </label>
       )}
 
-      {isLoading ? "Loading..." : children}
-    </button>
+      <input
+        id={id}
+        className={`w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-slate-900 placeholder-slate-500 transition focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 focus:outline-none disabled:cursor-not-allowed disabled:bg-slate-100 disabled:opacity-60 ${className}`}
+        {...props}
+      />
+
+      {error && (
+        <p
+          className="mt-1 text-sm text-red-600"
+          role="alert"
+        >
+          {error}
+        </p>
+      )}
+    </div>
   );
 }
