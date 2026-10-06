@@ -9,6 +9,7 @@ export interface Meal {
   updatedAt: Date;
 }
 
+
 export interface Exercise {
   id: string;
   userId: string;
