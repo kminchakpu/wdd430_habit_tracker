@@ -1,97 +1,70 @@
-import type { SelectHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-export interface SelectOption {
-  value: string;
-  label: string;
+type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "danger"
+  | "outline";
+
+type ButtonSize =
+  | "sm"
+  | "md"
+  | "lg";
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  isLoading?: boolean;
+  fullWidth?: boolean;
 }
 
-interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  label?: string;
-  options: SelectOption[];
-  error?: string;
-  helperText?: string;
-  placeholder?: string;
-}
-
-export default function Select({
-  label,
-  options,
-  error,
-  helperText,
-  placeholder,
-  id,
-  required,
+export default function Button({
+  children,
+  variant = "primary",
+  size = "md",
+  isLoading = false,
+  fullWidth = false,
+  disabled,
   className = "",
   ...props
-}: SelectProps) {
+}: ButtonProps) {
+  const baseStyles =
+    "inline-flex items-center justify-center rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
+
+  const variantStyles: Record<ButtonVariant, string> = {
+    primary:
+      "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
+    secondary:
+      "bg-slate-200 text-slate-900 hover:bg-slate-300 focus:ring-slate-400",
+    danger:
+      "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
+    outline:
+      "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 focus:ring-blue-500",
+  };
+
+  const sizeStyles: Record<ButtonSize, string> = {
+    sm: "px-3 py-2 text-sm",
+    md: "px-4 py-3 text-sm",
+    lg: "px-6 py-3.5 text-base",
+  };
+
   return (
-    <div className="w-full">
-      {label && (
-        <label
-          htmlFor={id}
-          className="mb-2 block text-sm font-medium text-slate-700"
-        >
-          {label}
-
-          {required && (
-            <span className="ml-1 text-red-600" aria-hidden="true">
-              *
-            </span>
-          )}
-        </label>
+    <button
+      disabled={disabled || isLoading}
+      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${
+        fullWidth ? "w-full" : ""
+      } ${className}`}
+      {...props}
+    >
+      {isLoading && (
+        <span
+          className="mr-2 size-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+          aria-hidden="true"
+        />
       )}
 
-      <select
-        id={id}
-        required={required}
-        aria-invalid={error ? "true" : undefined}
-        aria-describedby={
-          error
-            ? `${id}-error`
-            : helperText
-              ? `${id}-helper`
-              : undefined
-        }
-        className={`w-full rounded-lg border bg-white px-4 py-3 text-slate-900 outline-none transition ${
-          error
-            ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-100"
-            : "border-slate-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
-        } ${className}`}
-        {...props}
-      >
-        {placeholder && (
-          <option value="">
-            {placeholder}
-          </option>
-        )}
-
-        {options.map((option) => (
-          <option
-            key={option.value}
-            value={option.value}
-          >
-            {option.label}
-          </option>
-        ))}
-      </select>
-
-      {error && (
-        <p
-          id={`${id}-error`}
-          className="mt-1.5 text-sm text-red-600"
-        >
-          {error}
-        </p>
-      )}
-
-      {!error && helperText && (
-        <p
-          id={`${id}-helper`}
-          className="mt-1.5 text-sm text-slate-500"
-        >
-          {helperText}
-        </p>
-      )}
-    </div>
+      {isLoading ? "Loading..." : children}
+    </button>
   );
 }
