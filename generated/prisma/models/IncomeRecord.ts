@@ -39,6 +39,7 @@ export type IncomeRecordMinAggregateOutputType = {
   userId: string | null
   amount: runtime.Decimal | null
   source: string | null
+  type: string | null
   date: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -49,6 +50,7 @@ export type IncomeRecordMaxAggregateOutputType = {
   userId: string | null
   amount: runtime.Decimal | null
   source: string | null
+  type: string | null
   date: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -59,6 +61,7 @@ export type IncomeRecordCountAggregateOutputType = {
   userId: number
   amount: number
   source: number
+  type: number
   date: number
   createdAt: number
   updatedAt: number
@@ -79,6 +82,7 @@ export type IncomeRecordMinAggregateInputType = {
   userId?: true
   amount?: true
   source?: true
+  type?: true
   date?: true
   createdAt?: true
   updatedAt?: true
@@ -89,6 +93,7 @@ export type IncomeRecordMaxAggregateInputType = {
   userId?: true
   amount?: true
   source?: true
+  type?: true
   date?: true
   createdAt?: true
   updatedAt?: true
@@ -99,6 +104,7 @@ export type IncomeRecordCountAggregateInputType = {
   userId?: true
   amount?: true
   source?: true
+  type?: true
   date?: true
   createdAt?: true
   updatedAt?: true
@@ -196,7 +202,8 @@ export type IncomeRecordGroupByOutputType = {
   userId: string
   amount: runtime.Decimal
   source: string
-  date: Date
+  type: string
+  date: Date | null
   createdAt: Date
   updatedAt: Date
   _count: IncomeRecordCountAggregateOutputType | null
@@ -229,7 +236,8 @@ export type IncomeRecordWhereInput = {
   userId?: Prisma.StringFilter<"IncomeRecord"> | string
   amount?: Prisma.DecimalFilter<"IncomeRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: Prisma.StringFilter<"IncomeRecord"> | string
-  date?: Prisma.DateTimeFilter<"IncomeRecord"> | Date | string
+  type?: Prisma.StringFilter<"IncomeRecord"> | string
+  date?: Prisma.DateTimeNullableFilter<"IncomeRecord"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"IncomeRecord"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"IncomeRecord"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -240,7 +248,8 @@ export type IncomeRecordOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   source?: Prisma.SortOrder
-  date?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  date?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -254,7 +263,8 @@ export type IncomeRecordWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"IncomeRecord"> | string
   amount?: Prisma.DecimalFilter<"IncomeRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: Prisma.StringFilter<"IncomeRecord"> | string
-  date?: Prisma.DateTimeFilter<"IncomeRecord"> | Date | string
+  type?: Prisma.StringFilter<"IncomeRecord"> | string
+  date?: Prisma.DateTimeNullableFilter<"IncomeRecord"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"IncomeRecord"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"IncomeRecord"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -265,7 +275,8 @@ export type IncomeRecordOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   source?: Prisma.SortOrder
-  date?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  date?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.IncomeRecordCountOrderByAggregateInput
@@ -283,7 +294,8 @@ export type IncomeRecordScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"IncomeRecord"> | string
   amount?: Prisma.DecimalWithAggregatesFilter<"IncomeRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: Prisma.StringWithAggregatesFilter<"IncomeRecord"> | string
-  date?: Prisma.DateTimeWithAggregatesFilter<"IncomeRecord"> | Date | string
+  type?: Prisma.StringWithAggregatesFilter<"IncomeRecord"> | string
+  date?: Prisma.DateTimeNullableWithAggregatesFilter<"IncomeRecord"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"IncomeRecord"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"IncomeRecord"> | Date | string
 }
@@ -292,7 +304,8 @@ export type IncomeRecordCreateInput = {
   id?: string
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   source: string
-  date: Date | string
+  type?: string
+  date?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutIncomeRecordsInput
@@ -303,7 +316,8 @@ export type IncomeRecordUncheckedCreateInput = {
   userId: string
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   source: string
-  date: Date | string
+  type?: string
+  date?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -312,7 +326,8 @@ export type IncomeRecordUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutIncomeRecordsNestedInput
@@ -323,7 +338,8 @@ export type IncomeRecordUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -333,7 +349,8 @@ export type IncomeRecordCreateManyInput = {
   userId: string
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   source: string
-  date: Date | string
+  type?: string
+  date?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -342,7 +359,8 @@ export type IncomeRecordUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -352,7 +370,8 @@ export type IncomeRecordUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -372,6 +391,7 @@ export type IncomeRecordCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   source?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   date?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -386,6 +406,7 @@ export type IncomeRecordMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   source?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   date?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -396,6 +417,7 @@ export type IncomeRecordMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   source?: Prisma.SortOrder
+  type?: Prisma.SortOrder
   date?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -455,11 +477,16 @@ export type DecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type IncomeRecordCreateWithoutUserInput = {
   id?: string
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   source: string
-  date: Date | string
+  type?: string
+  date?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -468,7 +495,8 @@ export type IncomeRecordUncheckedCreateWithoutUserInput = {
   id?: string
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   source: string
-  date: Date | string
+  type?: string
+  date?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -507,7 +535,8 @@ export type IncomeRecordScalarWhereInput = {
   userId?: Prisma.StringFilter<"IncomeRecord"> | string
   amount?: Prisma.DecimalFilter<"IncomeRecord"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: Prisma.StringFilter<"IncomeRecord"> | string
-  date?: Prisma.DateTimeFilter<"IncomeRecord"> | Date | string
+  type?: Prisma.StringFilter<"IncomeRecord"> | string
+  date?: Prisma.DateTimeNullableFilter<"IncomeRecord"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"IncomeRecord"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"IncomeRecord"> | Date | string
 }
@@ -516,7 +545,8 @@ export type IncomeRecordCreateManyUserInput = {
   id?: string
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   source: string
-  date: Date | string
+  type?: string
+  date?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -525,7 +555,8 @@ export type IncomeRecordUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -534,7 +565,8 @@ export type IncomeRecordUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -543,7 +575,8 @@ export type IncomeRecordUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   source?: Prisma.StringFieldUpdateOperationsInput | string
-  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  type?: Prisma.StringFieldUpdateOperationsInput | string
+  date?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -555,6 +588,7 @@ export type IncomeRecordSelect<ExtArgs extends runtime.Types.Extensions.Internal
   userId?: boolean
   amount?: boolean
   source?: boolean
+  type?: boolean
   date?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -566,6 +600,7 @@ export type IncomeRecordSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   userId?: boolean
   amount?: boolean
   source?: boolean
+  type?: boolean
   date?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -577,6 +612,7 @@ export type IncomeRecordSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   userId?: boolean
   amount?: boolean
   source?: boolean
+  type?: boolean
   date?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -588,12 +624,13 @@ export type IncomeRecordSelectScalar = {
   userId?: boolean
   amount?: boolean
   source?: boolean
+  type?: boolean
   date?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type IncomeRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "amount" | "source" | "date" | "createdAt" | "updatedAt", ExtArgs["result"]["incomeRecord"]>
+export type IncomeRecordOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "amount" | "source" | "type" | "date" | "createdAt" | "updatedAt", ExtArgs["result"]["incomeRecord"]>
 export type IncomeRecordInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -614,7 +651,8 @@ export type $IncomeRecordPayload<ExtArgs extends runtime.Types.Extensions.Intern
     userId: string
     amount: runtime.Decimal
     source: string
-    date: Date
+    type: string
+    date: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["incomeRecord"]>
@@ -1045,6 +1083,7 @@ export interface IncomeRecordFieldRefs {
   readonly userId: Prisma.FieldRef<"IncomeRecord", 'String'>
   readonly amount: Prisma.FieldRef<"IncomeRecord", 'Decimal'>
   readonly source: Prisma.FieldRef<"IncomeRecord", 'String'>
+  readonly type: Prisma.FieldRef<"IncomeRecord", 'String'>
   readonly date: Prisma.FieldRef<"IncomeRecord", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"IncomeRecord", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"IncomeRecord", 'DateTime'>
