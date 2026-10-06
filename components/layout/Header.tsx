@@ -3,8 +3,15 @@ import Link from "next/link";
 import { useState } from "react";
 import Navbar from "./Navbar";
 import MobileMenu from "./MobileMenu";
+import LogoutButton from "@/components/auth/LogoutButton";
 
-export default function Header() {
+interface HeaderProps {
+  isAuthenticated: boolean;
+}
+
+export default function Header({
+  isAuthenticated,
+}: HeaderProps)  {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -27,21 +34,40 @@ export default function Header() {
             </p>
           </div>
         </Link>
+
         <Navbar />
+
         <div className="hidden items-center gap-3 lg:flex">
-          <Link
-            href="/login"
-            className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100"
-          >
-            Log In
-          </Link>
-          <Link
-            href="/register"
-            className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
-          >
-            Get Started
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link
+                href="/profile"
+                className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100"
+              >
+                Profile
+              </Link>
+
+              <LogoutButton className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60" />
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100"
+              >
+                Log In
+              </Link>
+
+              <Link
+                href="/register"
+                className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-emerald-700"
+              >
+                Get Started
+              </Link>
+            </>
+          )}
         </div>
+
         <button
           type="button"
           onClick={() => setIsOpen((previous) => !previous)}
@@ -69,9 +95,11 @@ export default function Header() {
           </div>
         </button>
       </div>
+
       <MobileMenu
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
+        isAuthenticated={isAuthenticated}
       />
     </header>
   );
