@@ -9,4 +9,10 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/User'
+export type * from './models/Meal'
+export type * from './models/Exercise'
+export type * from './models/Water'
+export type * from './models/IncomeRecord'
+export type * from './models/ExpenseRecord'
+export type * from './models/SavingsRecord'
 export type * from './commonInputTypes'

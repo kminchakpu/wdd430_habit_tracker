@@ -4,9 +4,9 @@ import Button from "@/components/ui/Button";
 
 interface Savings {
   id: string;
-  name: string;
   amount: number;
-  goal?: number;
+  note?: string;
+  date: string;
 }
 
 interface SavingsListProps {
@@ -23,16 +23,20 @@ export default function SavingsList({
   isLoading,
 }: SavingsListProps) {
   const handleDelete = async (id: string) => {
-    if (window.confirm("Are you sure you want to delete this Saving?")) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this savings record?",
+      )
+    ) {
       await onDelete(id);
     }
   };
 
   if (savings.length === 0) {
     return (
-      <div className="bg-white border border-slate-200 rounded-xl p-8 text-center">
-        <p className="text-slate-500 text-sm">
-          No savings yet. Add one to get started.
+      <div className="rounded-xl border border-slate-200 bg-white p-8 text-center">
+        <p className="text-sm text-slate-500">
+          No savings records yet. Add one to get started.
         </p>
       </div>
     );
@@ -43,15 +47,11 @@ export default function SavingsList({
       {savings.map((saving) => (
         <div
           key={saving.id}
-          className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-between hover:border-slate-300 transition-colors"
+          className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4 transition-colors hover:border-slate-300"
         >
           <div className="flex-1">
-            <h4 className="text-slate-900 font-semibold text-sm mb-1">
-              {saving.name}
-            </h4>
-
-            <div className="flex items-center gap-3">
-              <span className="text-emerald-600 font-semibold">
+            <div className="mb-1 flex items-center gap-3">
+              <span className="font-semibold text-emerald-600">
                 $
                 {saving.amount.toLocaleString("en-US", {
                   minimumFractionDigits: 2,
@@ -59,21 +59,40 @@ export default function SavingsList({
                 })}
               </span>
             </div>
+
+            <p className="text-sm text-slate-600">
+              {new Date(saving.date).toLocaleDateString(
+                "en-US",
+                {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                },
+              )}
+            </p>
+
+            {saving.note && (
+              <p className="mt-1 text-sm text-slate-500">
+                {saving.note}
+              </p>
+            )}
           </div>
 
-          <div className="flex gap-2 ml-4">
+          <div className="ml-4 flex gap-2">
             <Button
+              type="button"
               onClick={() => onEdit(saving)}
               disabled={isLoading}
-              className="px-3 py-2 text-sm bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors font-medium"
+              className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
             >
               Edit
             </Button>
 
             <Button
+              type="button"
               onClick={() => handleDelete(saving.id)}
               disabled={isLoading}
-              className="px-3 py-2 text-sm border border-rose-600 text-rose-600 hover:bg-rose-50 rounded-lg transition-colors font-medium"
+              className="rounded-lg border border-rose-600 px-3 py-2 text-sm font-medium text-rose-600 transition-colors hover:bg-rose-50"
             >
               Delete
             </Button>

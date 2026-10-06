@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import LogoutButton from "@/components/auth/LogoutButton";
 
 const navLinks = [
   {
@@ -28,11 +29,13 @@ const navLinks = [
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  isAuthenticated: boolean;
 }
 
 export default function MobileMenu({
   isOpen,
   onClose,
+  isAuthenticated,
 }: MobileMenuProps) {
   const pathname = usePathname();
 
@@ -40,6 +43,7 @@ export default function MobileMenu({
     if (href === "/") {
       return pathname === "/";
     }
+
     return pathname.startsWith(href);
   };
 
@@ -57,6 +61,7 @@ export default function MobileMenu({
         <div className="space-y-1">
           {navLinks.map((link) => {
             const active = isActive(link.href);
+
             return (
               <Link
                 key={link.href}
@@ -74,21 +79,42 @@ export default function MobileMenu({
             );
           })}
         </div>
-        <div className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-200 pt-4">
-          <Link
-            href="/login"
-            onClick={onClose}
-            className="rounded-lg border border-slate-300 px-4 py-2.5 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
-          >
-            Log In
-          </Link>
-          <Link
-            href="/register"
-            onClick={onClose}
-            className="rounded-lg bg-emerald-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-emerald-700"
-          >
-            Get Started
-          </Link>
+
+        <div className="mt-4 border-t border-slate-200 pt-4">
+          {isAuthenticated ? (
+            <div className="grid grid-cols-2 gap-3">
+              <Link
+                href="/profile"
+                onClick={onClose}
+                className="rounded-lg border border-slate-300 px-4 py-2.5 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+              >
+                Profile
+              </Link>
+
+              <LogoutButton
+                onLogout={onClose}
+                className="rounded-lg bg-slate-900 px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+              />
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-3">
+              <Link
+                href="/login"
+                onClick={onClose}
+                className="rounded-lg border border-slate-300 px-4 py-2.5 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+              >
+                Log In
+              </Link>
+
+              <Link
+                href="/register"
+                onClick={onClose}
+                className="rounded-lg bg-emerald-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-emerald-700"
+              >
+                Get Started
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>

@@ -190,6 +190,12 @@ export type UserWhereInput = {
   passwordHash?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  meals?: Prisma.MealListRelationFilter
+  exercises?: Prisma.ExerciseListRelationFilter
+  water?: Prisma.WaterListRelationFilter
+  incomeRecords?: Prisma.IncomeRecordListRelationFilter
+  expenseRecords?: Prisma.ExpenseRecordListRelationFilter
+  savingsRecords?: Prisma.SavingsRecordListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -199,6 +205,12 @@ export type UserOrderByWithRelationInput = {
   passwordHash?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  meals?: Prisma.MealOrderByRelationAggregateInput
+  exercises?: Prisma.ExerciseOrderByRelationAggregateInput
+  water?: Prisma.WaterOrderByRelationAggregateInput
+  incomeRecords?: Prisma.IncomeRecordOrderByRelationAggregateInput
+  expenseRecords?: Prisma.ExpenseRecordOrderByRelationAggregateInput
+  savingsRecords?: Prisma.SavingsRecordOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -211,6 +223,12 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   passwordHash?: Prisma.StringFilter<"User"> | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  meals?: Prisma.MealListRelationFilter
+  exercises?: Prisma.ExerciseListRelationFilter
+  water?: Prisma.WaterListRelationFilter
+  incomeRecords?: Prisma.IncomeRecordListRelationFilter
+  expenseRecords?: Prisma.ExpenseRecordListRelationFilter
+  savingsRecords?: Prisma.SavingsRecordListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -244,6 +262,12 @@ export type UserCreateInput = {
   passwordHash: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  meals?: Prisma.MealCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
+  water?: Prisma.WaterCreateNestedManyWithoutUserInput
+  incomeRecords?: Prisma.IncomeRecordCreateNestedManyWithoutUserInput
+  expenseRecords?: Prisma.ExpenseRecordCreateNestedManyWithoutUserInput
+  savingsRecords?: Prisma.SavingsRecordCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -253,6 +277,12 @@ export type UserUncheckedCreateInput = {
   passwordHash: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  meals?: Prisma.MealUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
+  water?: Prisma.WaterUncheckedCreateNestedManyWithoutUserInput
+  incomeRecords?: Prisma.IncomeRecordUncheckedCreateNestedManyWithoutUserInput
+  expenseRecords?: Prisma.ExpenseRecordUncheckedCreateNestedManyWithoutUserInput
+  savingsRecords?: Prisma.SavingsRecordUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -262,6 +292,12 @@ export type UserUpdateInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
+  water?: Prisma.WaterUpdateManyWithoutUserNestedInput
+  incomeRecords?: Prisma.IncomeRecordUpdateManyWithoutUserNestedInput
+  expenseRecords?: Prisma.ExpenseRecordUpdateManyWithoutUserNestedInput
+  savingsRecords?: Prisma.SavingsRecordUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -271,6 +307,12 @@ export type UserUncheckedUpdateInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
+  water?: Prisma.WaterUncheckedUpdateManyWithoutUserNestedInput
+  incomeRecords?: Prisma.IncomeRecordUncheckedUpdateManyWithoutUserNestedInput
+  expenseRecords?: Prisma.ExpenseRecordUncheckedUpdateManyWithoutUserNestedInput
+  savingsRecords?: Prisma.SavingsRecordUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -327,6 +369,11 @@ export type UserMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type UserScalarRelationFilter = {
+  is?: Prisma.UserWhereInput
+  isNot?: Prisma.UserWhereInput
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -335,6 +382,596 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type UserCreateNestedOneWithoutMealsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMealsInput, Prisma.UserUncheckedCreateWithoutMealsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMealsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutMealsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMealsInput, Prisma.UserUncheckedCreateWithoutMealsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMealsInput
+  upsert?: Prisma.UserUpsertWithoutMealsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMealsInput, Prisma.UserUpdateWithoutMealsInput>, Prisma.UserUncheckedUpdateWithoutMealsInput>
+}
+
+export type UserCreateNestedOneWithoutExercisesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExercisesInput, Prisma.UserUncheckedCreateWithoutExercisesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExercisesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutExercisesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExercisesInput, Prisma.UserUncheckedCreateWithoutExercisesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExercisesInput
+  upsert?: Prisma.UserUpsertWithoutExercisesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExercisesInput, Prisma.UserUpdateWithoutExercisesInput>, Prisma.UserUncheckedUpdateWithoutExercisesInput>
+}
+
+export type UserCreateNestedOneWithoutWaterInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWaterInput, Prisma.UserUncheckedCreateWithoutWaterInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWaterInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWaterNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWaterInput, Prisma.UserUncheckedCreateWithoutWaterInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWaterInput
+  upsert?: Prisma.UserUpsertWithoutWaterInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWaterInput, Prisma.UserUpdateWithoutWaterInput>, Prisma.UserUncheckedUpdateWithoutWaterInput>
+}
+
+export type UserCreateNestedOneWithoutIncomeRecordsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutIncomeRecordsInput, Prisma.UserUncheckedCreateWithoutIncomeRecordsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutIncomeRecordsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutIncomeRecordsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutIncomeRecordsInput, Prisma.UserUncheckedCreateWithoutIncomeRecordsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutIncomeRecordsInput
+  upsert?: Prisma.UserUpsertWithoutIncomeRecordsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutIncomeRecordsInput, Prisma.UserUpdateWithoutIncomeRecordsInput>, Prisma.UserUncheckedUpdateWithoutIncomeRecordsInput>
+}
+
+export type UserCreateNestedOneWithoutExpenseRecordsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExpenseRecordsInput, Prisma.UserUncheckedCreateWithoutExpenseRecordsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpenseRecordsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutExpenseRecordsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutExpenseRecordsInput, Prisma.UserUncheckedCreateWithoutExpenseRecordsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutExpenseRecordsInput
+  upsert?: Prisma.UserUpsertWithoutExpenseRecordsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutExpenseRecordsInput, Prisma.UserUpdateWithoutExpenseRecordsInput>, Prisma.UserUncheckedUpdateWithoutExpenseRecordsInput>
+}
+
+export type UserCreateNestedOneWithoutSavingsRecordsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavingsRecordsInput, Prisma.UserUncheckedCreateWithoutSavingsRecordsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavingsRecordsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSavingsRecordsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavingsRecordsInput, Prisma.UserUncheckedCreateWithoutSavingsRecordsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavingsRecordsInput
+  upsert?: Prisma.UserUpsertWithoutSavingsRecordsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSavingsRecordsInput, Prisma.UserUpdateWithoutSavingsRecordsInput>, Prisma.UserUncheckedUpdateWithoutSavingsRecordsInput>
+}
+
+export type UserCreateWithoutMealsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
+  water?: Prisma.WaterCreateNestedManyWithoutUserInput
+  incomeRecords?: Prisma.IncomeRecordCreateNestedManyWithoutUserInput
+  expenseRecords?: Prisma.ExpenseRecordCreateNestedManyWithoutUserInput
+  savingsRecords?: Prisma.SavingsRecordCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutMealsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
+  water?: Prisma.WaterUncheckedCreateNestedManyWithoutUserInput
+  incomeRecords?: Prisma.IncomeRecordUncheckedCreateNestedManyWithoutUserInput
+  expenseRecords?: Prisma.ExpenseRecordUncheckedCreateNestedManyWithoutUserInput
+  savingsRecords?: Prisma.SavingsRecordUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutMealsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutMealsInput, Prisma.UserUncheckedCreateWithoutMealsInput>
+}
+
+export type UserUpsertWithoutMealsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutMealsInput, Prisma.UserUncheckedUpdateWithoutMealsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutMealsInput, Prisma.UserUncheckedCreateWithoutMealsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutMealsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutMealsInput, Prisma.UserUncheckedUpdateWithoutMealsInput>
+}
+
+export type UserUpdateWithoutMealsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
+  water?: Prisma.WaterUpdateManyWithoutUserNestedInput
+  incomeRecords?: Prisma.IncomeRecordUpdateManyWithoutUserNestedInput
+  expenseRecords?: Prisma.ExpenseRecordUpdateManyWithoutUserNestedInput
+  savingsRecords?: Prisma.SavingsRecordUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutMealsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
+  water?: Prisma.WaterUncheckedUpdateManyWithoutUserNestedInput
+  incomeRecords?: Prisma.IncomeRecordUncheckedUpdateManyWithoutUserNestedInput
+  expenseRecords?: Prisma.ExpenseRecordUncheckedUpdateManyWithoutUserNestedInput
+  savingsRecords?: Prisma.SavingsRecordUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutExercisesInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  meals?: Prisma.MealCreateNestedManyWithoutUserInput
+  water?: Prisma.WaterCreateNestedManyWithoutUserInput
+  incomeRecords?: Prisma.IncomeRecordCreateNestedManyWithoutUserInput
+  expenseRecords?: Prisma.ExpenseRecordCreateNestedManyWithoutUserInput
+  savingsRecords?: Prisma.SavingsRecordCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutExercisesInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  meals?: Prisma.MealUncheckedCreateNestedManyWithoutUserInput
+  water?: Prisma.WaterUncheckedCreateNestedManyWithoutUserInput
+  incomeRecords?: Prisma.IncomeRecordUncheckedCreateNestedManyWithoutUserInput
+  expenseRecords?: Prisma.ExpenseRecordUncheckedCreateNestedManyWithoutUserInput
+  savingsRecords?: Prisma.SavingsRecordUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutExercisesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutExercisesInput, Prisma.UserUncheckedCreateWithoutExercisesInput>
+}
+
+export type UserUpsertWithoutExercisesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutExercisesInput, Prisma.UserUncheckedUpdateWithoutExercisesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutExercisesInput, Prisma.UserUncheckedCreateWithoutExercisesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutExercisesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutExercisesInput, Prisma.UserUncheckedUpdateWithoutExercisesInput>
+}
+
+export type UserUpdateWithoutExercisesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUpdateManyWithoutUserNestedInput
+  water?: Prisma.WaterUpdateManyWithoutUserNestedInput
+  incomeRecords?: Prisma.IncomeRecordUpdateManyWithoutUserNestedInput
+  expenseRecords?: Prisma.ExpenseRecordUpdateManyWithoutUserNestedInput
+  savingsRecords?: Prisma.SavingsRecordUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutExercisesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUncheckedUpdateManyWithoutUserNestedInput
+  water?: Prisma.WaterUncheckedUpdateManyWithoutUserNestedInput
+  incomeRecords?: Prisma.IncomeRecordUncheckedUpdateManyWithoutUserNestedInput
+  expenseRecords?: Prisma.ExpenseRecordUncheckedUpdateManyWithoutUserNestedInput
+  savingsRecords?: Prisma.SavingsRecordUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutWaterInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  meals?: Prisma.MealCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
+  incomeRecords?: Prisma.IncomeRecordCreateNestedManyWithoutUserInput
+  expenseRecords?: Prisma.ExpenseRecordCreateNestedManyWithoutUserInput
+  savingsRecords?: Prisma.SavingsRecordCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutWaterInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  meals?: Prisma.MealUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
+  incomeRecords?: Prisma.IncomeRecordUncheckedCreateNestedManyWithoutUserInput
+  expenseRecords?: Prisma.ExpenseRecordUncheckedCreateNestedManyWithoutUserInput
+  savingsRecords?: Prisma.SavingsRecordUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutWaterInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWaterInput, Prisma.UserUncheckedCreateWithoutWaterInput>
+}
+
+export type UserUpsertWithoutWaterInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWaterInput, Prisma.UserUncheckedUpdateWithoutWaterInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWaterInput, Prisma.UserUncheckedCreateWithoutWaterInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWaterInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWaterInput, Prisma.UserUncheckedUpdateWithoutWaterInput>
+}
+
+export type UserUpdateWithoutWaterInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
+  incomeRecords?: Prisma.IncomeRecordUpdateManyWithoutUserNestedInput
+  expenseRecords?: Prisma.ExpenseRecordUpdateManyWithoutUserNestedInput
+  savingsRecords?: Prisma.SavingsRecordUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWaterInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
+  incomeRecords?: Prisma.IncomeRecordUncheckedUpdateManyWithoutUserNestedInput
+  expenseRecords?: Prisma.ExpenseRecordUncheckedUpdateManyWithoutUserNestedInput
+  savingsRecords?: Prisma.SavingsRecordUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutIncomeRecordsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  meals?: Prisma.MealCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
+  water?: Prisma.WaterCreateNestedManyWithoutUserInput
+  expenseRecords?: Prisma.ExpenseRecordCreateNestedManyWithoutUserInput
+  savingsRecords?: Prisma.SavingsRecordCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutIncomeRecordsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  meals?: Prisma.MealUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
+  water?: Prisma.WaterUncheckedCreateNestedManyWithoutUserInput
+  expenseRecords?: Prisma.ExpenseRecordUncheckedCreateNestedManyWithoutUserInput
+  savingsRecords?: Prisma.SavingsRecordUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutIncomeRecordsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutIncomeRecordsInput, Prisma.UserUncheckedCreateWithoutIncomeRecordsInput>
+}
+
+export type UserUpsertWithoutIncomeRecordsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutIncomeRecordsInput, Prisma.UserUncheckedUpdateWithoutIncomeRecordsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutIncomeRecordsInput, Prisma.UserUncheckedCreateWithoutIncomeRecordsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutIncomeRecordsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutIncomeRecordsInput, Prisma.UserUncheckedUpdateWithoutIncomeRecordsInput>
+}
+
+export type UserUpdateWithoutIncomeRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
+  water?: Prisma.WaterUpdateManyWithoutUserNestedInput
+  expenseRecords?: Prisma.ExpenseRecordUpdateManyWithoutUserNestedInput
+  savingsRecords?: Prisma.SavingsRecordUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutIncomeRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
+  water?: Prisma.WaterUncheckedUpdateManyWithoutUserNestedInput
+  expenseRecords?: Prisma.ExpenseRecordUncheckedUpdateManyWithoutUserNestedInput
+  savingsRecords?: Prisma.SavingsRecordUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutExpenseRecordsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  meals?: Prisma.MealCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
+  water?: Prisma.WaterCreateNestedManyWithoutUserInput
+  incomeRecords?: Prisma.IncomeRecordCreateNestedManyWithoutUserInput
+  savingsRecords?: Prisma.SavingsRecordCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutExpenseRecordsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  meals?: Prisma.MealUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
+  water?: Prisma.WaterUncheckedCreateNestedManyWithoutUserInput
+  incomeRecords?: Prisma.IncomeRecordUncheckedCreateNestedManyWithoutUserInput
+  savingsRecords?: Prisma.SavingsRecordUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutExpenseRecordsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutExpenseRecordsInput, Prisma.UserUncheckedCreateWithoutExpenseRecordsInput>
+}
+
+export type UserUpsertWithoutExpenseRecordsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutExpenseRecordsInput, Prisma.UserUncheckedUpdateWithoutExpenseRecordsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutExpenseRecordsInput, Prisma.UserUncheckedCreateWithoutExpenseRecordsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutExpenseRecordsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutExpenseRecordsInput, Prisma.UserUncheckedUpdateWithoutExpenseRecordsInput>
+}
+
+export type UserUpdateWithoutExpenseRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
+  water?: Prisma.WaterUpdateManyWithoutUserNestedInput
+  incomeRecords?: Prisma.IncomeRecordUpdateManyWithoutUserNestedInput
+  savingsRecords?: Prisma.SavingsRecordUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutExpenseRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
+  water?: Prisma.WaterUncheckedUpdateManyWithoutUserNestedInput
+  incomeRecords?: Prisma.IncomeRecordUncheckedUpdateManyWithoutUserNestedInput
+  savingsRecords?: Prisma.SavingsRecordUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSavingsRecordsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  meals?: Prisma.MealCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseCreateNestedManyWithoutUserInput
+  water?: Prisma.WaterCreateNestedManyWithoutUserInput
+  incomeRecords?: Prisma.IncomeRecordCreateNestedManyWithoutUserInput
+  expenseRecords?: Prisma.ExpenseRecordCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSavingsRecordsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  meals?: Prisma.MealUncheckedCreateNestedManyWithoutUserInput
+  exercises?: Prisma.ExerciseUncheckedCreateNestedManyWithoutUserInput
+  water?: Prisma.WaterUncheckedCreateNestedManyWithoutUserInput
+  incomeRecords?: Prisma.IncomeRecordUncheckedCreateNestedManyWithoutUserInput
+  expenseRecords?: Prisma.ExpenseRecordUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSavingsRecordsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavingsRecordsInput, Prisma.UserUncheckedCreateWithoutSavingsRecordsInput>
+}
+
+export type UserUpsertWithoutSavingsRecordsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSavingsRecordsInput, Prisma.UserUncheckedUpdateWithoutSavingsRecordsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavingsRecordsInput, Prisma.UserUncheckedCreateWithoutSavingsRecordsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSavingsRecordsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSavingsRecordsInput, Prisma.UserUncheckedUpdateWithoutSavingsRecordsInput>
+}
+
+export type UserUpdateWithoutSavingsRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUpdateManyWithoutUserNestedInput
+  water?: Prisma.WaterUpdateManyWithoutUserNestedInput
+  incomeRecords?: Prisma.IncomeRecordUpdateManyWithoutUserNestedInput
+  expenseRecords?: Prisma.ExpenseRecordUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSavingsRecordsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meals?: Prisma.MealUncheckedUpdateManyWithoutUserNestedInput
+  exercises?: Prisma.ExerciseUncheckedUpdateManyWithoutUserNestedInput
+  water?: Prisma.WaterUncheckedUpdateManyWithoutUserNestedInput
+  incomeRecords?: Prisma.IncomeRecordUncheckedUpdateManyWithoutUserNestedInput
+  expenseRecords?: Prisma.ExpenseRecordUncheckedUpdateManyWithoutUserNestedInput
+}
+
+
+/**
+ * Count Type UserCountOutputType
+ */
+
+export type UserCountOutputType = {
+  meals: number
+  exercises: number
+  water: number
+  incomeRecords: number
+  expenseRecords: number
+  savingsRecords: number
+}
+
+export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  meals?: boolean | UserCountOutputTypeCountMealsArgs
+  exercises?: boolean | UserCountOutputTypeCountExercisesArgs
+  water?: boolean | UserCountOutputTypeCountWaterArgs
+  incomeRecords?: boolean | UserCountOutputTypeCountIncomeRecordsArgs
+  expenseRecords?: boolean | UserCountOutputTypeCountExpenseRecordsArgs
+  savingsRecords?: boolean | UserCountOutputTypeCountSavingsRecordsArgs
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserCountOutputType
+   */
+  select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountMealsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MealWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountExercisesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExerciseWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountWaterArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WaterWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountIncomeRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.IncomeRecordWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountExpenseRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExpenseRecordWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSavingsRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SavingsRecordWhereInput
+}
 
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -344,6 +981,13 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   passwordHash?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  meals?: boolean | Prisma.User$mealsArgs<ExtArgs>
+  exercises?: boolean | Prisma.User$exercisesArgs<ExtArgs>
+  water?: boolean | Prisma.User$waterArgs<ExtArgs>
+  incomeRecords?: boolean | Prisma.User$incomeRecordsArgs<ExtArgs>
+  expenseRecords?: boolean | Prisma.User$expenseRecordsArgs<ExtArgs>
+  savingsRecords?: boolean | Prisma.User$savingsRecordsArgs<ExtArgs>
+  _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -374,10 +1018,28 @@ export type UserSelectScalar = {
 }
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  meals?: boolean | Prisma.User$mealsArgs<ExtArgs>
+  exercises?: boolean | Prisma.User$exercisesArgs<ExtArgs>
+  water?: boolean | Prisma.User$waterArgs<ExtArgs>
+  incomeRecords?: boolean | Prisma.User$incomeRecordsArgs<ExtArgs>
+  expenseRecords?: boolean | Prisma.User$expenseRecordsArgs<ExtArgs>
+  savingsRecords?: boolean | Prisma.User$savingsRecordsArgs<ExtArgs>
+  _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
-  objects: {}
+  objects: {
+    meals: Prisma.$MealPayload<ExtArgs>[]
+    exercises: Prisma.$ExercisePayload<ExtArgs>[]
+    water: Prisma.$WaterPayload<ExtArgs>[]
+    incomeRecords: Prisma.$IncomeRecordPayload<ExtArgs>[]
+    expenseRecords: Prisma.$ExpenseRecordPayload<ExtArgs>[]
+    savingsRecords: Prisma.$SavingsRecordPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
@@ -779,6 +1441,12 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  meals<T extends Prisma.User$mealsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$mealsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  exercises<T extends Prisma.User$exercisesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$exercisesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExercisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  water<T extends Prisma.User$waterArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$waterArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WaterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  incomeRecords<T extends Prisma.User$incomeRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$incomeRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IncomeRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  expenseRecords<T extends Prisma.User$expenseRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$expenseRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpenseRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  savingsRecords<T extends Prisma.User$savingsRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$savingsRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavingsRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -831,6 +1499,10 @@ export type UserFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter, which User to fetch.
    */
   where: Prisma.UserWhereUniqueInput
@@ -849,6 +1521,10 @@ export type UserFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter, which User to fetch.
    */
   where: Prisma.UserWhereUniqueInput
@@ -866,6 +1542,10 @@ export type UserFindFirstArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * Filter, which User to fetch.
    */
@@ -915,6 +1595,10 @@ export type UserFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter, which User to fetch.
    */
   where?: Prisma.UserWhereInput
@@ -962,6 +1646,10 @@ export type UserFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * Filter, which Users to fetch.
    */
@@ -1011,6 +1699,10 @@ export type UserCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * The data needed to create a User.
    */
   data: Prisma.XOR<Prisma.UserCreateInput, Prisma.UserUncheckedCreateInput>
@@ -1058,6 +1750,10 @@ export type UserUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
   /**
    * The data needed to update a User.
    */
@@ -1125,6 +1821,10 @@ export type UserUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * The filter to search for the User to update in case it exists.
    */
   where: Prisma.UserWhereUniqueInput
@@ -1151,6 +1851,10 @@ export type UserDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  /**
    * Filter which User to delete.
    */
   where: Prisma.UserWhereUniqueInput
@@ -1171,6 +1875,150 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * User.meals
+ */
+export type User$mealsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Meal
+   */
+  select?: Prisma.MealSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Meal
+   */
+  omit?: Prisma.MealOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MealInclude<ExtArgs> | null
+  where?: Prisma.MealWhereInput
+  orderBy?: Prisma.MealOrderByWithRelationInput | Prisma.MealOrderByWithRelationInput[]
+  cursor?: Prisma.MealWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MealScalarFieldEnum | Prisma.MealScalarFieldEnum[]
+}
+
+/**
+ * User.exercises
+ */
+export type User$exercisesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Exercise
+   */
+  select?: Prisma.ExerciseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Exercise
+   */
+  omit?: Prisma.ExerciseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExerciseInclude<ExtArgs> | null
+  where?: Prisma.ExerciseWhereInput
+  orderBy?: Prisma.ExerciseOrderByWithRelationInput | Prisma.ExerciseOrderByWithRelationInput[]
+  cursor?: Prisma.ExerciseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExerciseScalarFieldEnum | Prisma.ExerciseScalarFieldEnum[]
+}
+
+/**
+ * User.water
+ */
+export type User$waterArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Water
+   */
+  select?: Prisma.WaterSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Water
+   */
+  omit?: Prisma.WaterOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WaterInclude<ExtArgs> | null
+  where?: Prisma.WaterWhereInput
+  orderBy?: Prisma.WaterOrderByWithRelationInput | Prisma.WaterOrderByWithRelationInput[]
+  cursor?: Prisma.WaterWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WaterScalarFieldEnum | Prisma.WaterScalarFieldEnum[]
+}
+
+/**
+ * User.incomeRecords
+ */
+export type User$incomeRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the IncomeRecord
+   */
+  select?: Prisma.IncomeRecordSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the IncomeRecord
+   */
+  omit?: Prisma.IncomeRecordOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.IncomeRecordInclude<ExtArgs> | null
+  where?: Prisma.IncomeRecordWhereInput
+  orderBy?: Prisma.IncomeRecordOrderByWithRelationInput | Prisma.IncomeRecordOrderByWithRelationInput[]
+  cursor?: Prisma.IncomeRecordWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.IncomeRecordScalarFieldEnum | Prisma.IncomeRecordScalarFieldEnum[]
+}
+
+/**
+ * User.expenseRecords
+ */
+export type User$expenseRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExpenseRecord
+   */
+  select?: Prisma.ExpenseRecordSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExpenseRecord
+   */
+  omit?: Prisma.ExpenseRecordOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExpenseRecordInclude<ExtArgs> | null
+  where?: Prisma.ExpenseRecordWhereInput
+  orderBy?: Prisma.ExpenseRecordOrderByWithRelationInput | Prisma.ExpenseRecordOrderByWithRelationInput[]
+  cursor?: Prisma.ExpenseRecordWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExpenseRecordScalarFieldEnum | Prisma.ExpenseRecordScalarFieldEnum[]
+}
+
+/**
+ * User.savingsRecords
+ */
+export type User$savingsRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavingsRecord
+   */
+  select?: Prisma.SavingsRecordSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavingsRecord
+   */
+  omit?: Prisma.SavingsRecordOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavingsRecordInclude<ExtArgs> | null
+  where?: Prisma.SavingsRecordWhereInput
+  orderBy?: Prisma.SavingsRecordOrderByWithRelationInput | Prisma.SavingsRecordOrderByWithRelationInput[]
+  cursor?: Prisma.SavingsRecordWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SavingsRecordScalarFieldEnum | Prisma.SavingsRecordScalarFieldEnum[]
+}
+
+/**
  * User without action
  */
 export type UserDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1182,4 +2030,8 @@ export type UserDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the User
    */
   omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
 }
