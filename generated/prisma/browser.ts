@@ -22,3 +22,33 @@ export * from './enums';
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model exercises
+ * 
+ */
+export type exercises = Prisma.exercisesModel
+/**
+ * Model meals
+ * 
+ */
+export type meals = Prisma.mealsModel
+/**
+ * Model water_logs
+ * 
+ */
+export type water_logs = Prisma.water_logsModel
+/**
+ * Model IncomeRecord
+ * 
+ */
+export type IncomeRecord = Prisma.IncomeRecordModel
+/**
+ * Model ExpenseRecord
+ * 
+ */
+export type ExpenseRecord = Prisma.ExpenseRecordModel
+/**
+ * Model SavingsRecord
+ * 
+ */
+export type SavingsRecord = Prisma.SavingsRecordModel
