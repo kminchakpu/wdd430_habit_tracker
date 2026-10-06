@@ -43,21 +43,18 @@ export default function ExpenseFilters({
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         <div>
-          <label className="block text-slate-500 text-xs font-medium mb-1">
-            Category
-          </label>
           <Select
+            id="expense-category-filter"
+            label="Category"
             value={filters.category || ""}
             onChange={(e) => handleChange("category", e.target.value)}
+            options={categories.map((category) => ({
+              value: category,
+              label: category,
+            }))}
+            placeholder="All Categories"
             className="border border-slate-300 focus:border-emerald-600"
-          >
-            <option value="">All Categories</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </Select>
+          />
         </div>
 
         <div>

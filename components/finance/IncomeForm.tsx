@@ -129,24 +129,21 @@ export default function IncomeForm({
       </div>
 
       <div>
-        <label
-          htmlFor="type"
-          className="block text-slate-900 text-sm font-semibold mb-2"
-        >
-          Income Type
-        </label>
         <Select
           id="type"
+          name="type"
+          label="Income Type"
           value={formData.type}
           onChange={(e) =>
             handleChange("type", e.target.value as "fixed" | "variable")
           }
+          options={[
+            { value: "fixed", label: "Fixed" },
+            { value: "variable", label: "Variable" },
+          ]}
           disabled={isLoading}
           className="border border-slate-300 focus:border-emerald-600"
-        >
-          <option value="fixed">Fixed</option>
-          <option value="variable">Variable</option>
-        </Select>
+        />
       </div>
 
       <div>

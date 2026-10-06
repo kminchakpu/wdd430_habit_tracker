@@ -139,29 +139,21 @@ export default function ExpenseForm({
       </div>
 
       <div>
-        <label
-          htmlFor="category"
-          className="block text-slate-900 text-sm font-semibold mb-2"
-        >
-          Category
-        </label>
         <Select
           id="category"
+          name="category"
+          label="Category"
           value={formData.category}
           onChange={(e) => handleChange("category", e.target.value)}
+          options={categories.map((category) => ({
+            value: category,
+            label: category,
+          }))}
+          placeholder="Select a category"
+          error={errors.category}
           disabled={isLoading}
           className="border border-slate-300 focus:border-emerald-600"
-        >
-          <option value="">Select a category</option>
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
-        </Select>
-        {errors.category && (
-          <p className="text-rose-600 text-xs mt-1">{errors.category}</p>
-        )}
+        />
       </div>
 
       <div>
