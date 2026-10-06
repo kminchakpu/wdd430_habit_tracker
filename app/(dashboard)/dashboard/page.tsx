@@ -5,7 +5,7 @@ export default function DashboardPage() {
         Dashboard
       </h1>
       <p className="mt-2 text-slate-600">
-        Your Habit Tracker dashboard is coming soon.
+        Your Habit Tracker dashboard is coming soon be patient.
       </p>
     </section>
   );
