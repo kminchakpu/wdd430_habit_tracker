@@ -61,3 +61,18 @@ export type Exercise = Prisma.ExerciseModel
  * 
  */
 export type Water = Prisma.WaterModel
+/**
+ * Model IncomeRecord
+ * 
+ */
+export type IncomeRecord = Prisma.IncomeRecordModel
+/**
+ * Model ExpenseRecord
+ * 
+ */
+export type ExpenseRecord = Prisma.ExpenseRecordModel
+/**
+ * Model SavingsRecord
+ * 
+ */
+export type SavingsRecord = Prisma.SavingsRecordModel

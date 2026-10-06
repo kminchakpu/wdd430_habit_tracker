@@ -63,6 +63,7 @@ export default function Button({
           aria-hidden="true"
         />
       )}
+
       {isLoading ? "Loading..." : children}
     </button>
   );

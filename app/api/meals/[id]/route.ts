@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
+import { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId } from "@/lib/auth";
-
 export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -9,39 +9,30 @@ export async function DELETE(
   try {
     const userId = await getAuthenticatedUserId();
     const { id } = await params;
-
     if (!userId) {
       return NextResponse.json(
         { message: "Unauthorized" },
         { status: 401 }
       );
     }
-
-    console.log("Attempting to delete meal with ID:", id);
-
     const meal = await prisma.meal.findUnique({
       where: { id },
     });
-
     if (!meal) {
-      console.log("Meal not found with ID:", id);
       return NextResponse.json(
         { message: "Meal not found" },
         { status: 404 }
       );
     }
-
     if (meal.userId !== userId) {
       return NextResponse.json(
         { message: "Forbidden" },
         { status: 403 }
       );
     }
-
     await prisma.meal.delete({
       where: { id },
     });
-
     return NextResponse.json(
       { message: "Meal deleted successfully" },
       { status: 200 }
@@ -54,7 +45,6 @@ export async function DELETE(
     );
   }
 }
-
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -62,36 +52,29 @@ export async function PATCH(
   try {
     const userId = await getAuthenticatedUserId();
     const { id } = await params;
-
     if (!userId) {
       return NextResponse.json(
         { message: "Unauthorized" },
         { status: 401 }
       );
     }
-
     const body = await request.json();
-
     const meal = await prisma.meal.findUnique({
       where: { id },
     });
-
     if (!meal) {
       return NextResponse.json(
         { message: "Meal not found" },
         { status: 404 }
       );
     }
-
     if (meal.userId !== userId) {
       return NextResponse.json(
         { message: "Forbidden" },
         { status: 403 }
       );
     }
-
-    const updateData: any = {};
-
+    const updateData: Prisma.MealUpdateInput = {};
     if (typeof body.name === "string") {
       updateData.name = body.name.trim();
     }
@@ -104,14 +87,15 @@ export async function PATCH(
     if (typeof body.notes === "string") {
       updateData.notes = body.notes.trim() || null;
     }
-
     const updatedMeal = await prisma.meal.update({
       where: { id },
       data: updateData,
     });
-
     return NextResponse.json(
-      { message: "Meal updated successfully", meal: updatedMeal },
+      {
+        message: "Meal updated successfully",
+        meal: updatedMeal,
+      },
       { status: 200 }
     );
   } catch (error) {

@@ -54,7 +54,10 @@ export const ModelName = {
   User: 'User',
   Meal: 'Meal',
   Exercise: 'Exercise',
-  Water: 'Water'
+  Water: 'Water',
+  IncomeRecord: 'IncomeRecord',
+  ExpenseRecord: 'ExpenseRecord',
+  SavingsRecord: 'SavingsRecord'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -124,6 +127,46 @@ export const WaterScalarFieldEnum = {
 } as const
 
 export type WaterScalarFieldEnum = (typeof WaterScalarFieldEnum)[keyof typeof WaterScalarFieldEnum]
+
+
+export const IncomeRecordScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  source: 'source',
+  date: 'date',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type IncomeRecordScalarFieldEnum = (typeof IncomeRecordScalarFieldEnum)[keyof typeof IncomeRecordScalarFieldEnum]
+
+
+export const ExpenseRecordScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  category: 'category',
+  note: 'note',
+  date: 'date',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExpenseRecordScalarFieldEnum = (typeof ExpenseRecordScalarFieldEnum)[keyof typeof ExpenseRecordScalarFieldEnum]
+
+
+export const SavingsRecordScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  note: 'note',
+  date: 'date',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SavingsRecordScalarFieldEnum = (typeof SavingsRecordScalarFieldEnum)[keyof typeof SavingsRecordScalarFieldEnum]
 
 
 export const SortOrder = {
