@@ -8,12 +8,78 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  name         String
-  email        String   @unique
-  passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id              String              @id @default(cuid())
+  name            String
+  email           String              @unique
+  passwordHash    String
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  exerciseRecords ExerciseRecord[]
+  expenseRecords  ExpenseRecord[]
+  incomeRecords   IncomeRecord[]
+  mealRecords     MealRecord[]
+  savingsRecords  SavingsRecord[]
+  waterRecords    WaterIntakeRecord[]
 
   @@map("users")
+}
+
+model MealRecord {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  date      DateTime
+  meal      String
+  notes     String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model ExerciseRecord {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  date      DateTime
+  activity  String
+  duration  Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model WaterIntakeRecord {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  date      DateTime
+  quantity  Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model IncomeRecord {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  amount    Float
+  source    String
+  date      DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model ExpenseRecord {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  amount    Float
+  category  String
+  note      String?
+  date      DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model SavingsRecord {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  amount    Float
+  goal      String?
+  note      String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }
