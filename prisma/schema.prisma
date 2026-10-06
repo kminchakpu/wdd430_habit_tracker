@@ -5,6 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  // url is NOT here in Prisma 7
 }
 
 model User {
@@ -14,9 +15,9 @@ model User {
   passwordHash   String
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
-  exercises      exercises[]
-  meals          meals[]
-  water_logs     water_logs[]
+  meals          Meal[]
+  exercises      Exercise[]
+  water          Water[]
   incomeRecords  IncomeRecord[]
   expenseRecords ExpenseRecord[]
   savingsRecords SavingsRecord[]
@@ -24,8 +25,24 @@ model User {
   @@map("users")
 }
 
-model exercises {
-  id        String   @id
+model Meal {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  calories  Int
+  date      DateTime
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@map("meals")
+}
+
+model Exercise {
+  id        String   @id @default(cuid())
   userId    String
   name      String
   duration  Int
@@ -33,30 +50,26 @@ model exercises {
   date      DateTime
   notes     String?
   createdAt DateTime @default(now())
-  updatedAt DateTime
-  users     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@map("exercises")
 }
 
-model meals {
-  id        String   @id
-  userId    String
-  name      String
-  calories  Int
-  date      DateTime
-  notes     String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-  users     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model water_logs {
-  id        String   @id
+model Water {
+  id        String   @id @default(cuid())
   userId    String
   amount    Int
   date      DateTime
   createdAt DateTime @default(now())
-  updatedAt DateTime
-  users     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@map("water_logs")
 }
 
 model IncomeRecord {

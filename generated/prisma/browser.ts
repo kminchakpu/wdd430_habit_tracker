@@ -23,20 +23,20 @@ export * from './enums';
  */
 export type User = Prisma.UserModel
 /**
- * Model exercises
+ * Model Meal
  * 
  */
-export type exercises = Prisma.exercisesModel
+export type Meal = Prisma.MealModel
 /**
- * Model meals
+ * Model Exercise
  * 
  */
-export type meals = Prisma.mealsModel
+export type Exercise = Prisma.ExerciseModel
 /**
- * Model water_logs
+ * Model Water
  * 
  */
-export type water_logs = Prisma.water_logsModel
+export type Water = Prisma.WaterModel
 /**
  * Model IncomeRecord
  * 

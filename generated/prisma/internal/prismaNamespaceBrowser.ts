@@ -52,9 +52,9 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
-  exercises: 'exercises',
-  meals: 'meals',
-  water_logs: 'water_logs',
+  Meal: 'Meal',
+  Exercise: 'Exercise',
+  Water: 'Water',
   IncomeRecord: 'IncomeRecord',
   ExpenseRecord: 'ExpenseRecord',
   SavingsRecord: 'SavingsRecord'
@@ -88,7 +88,21 @@ export const UserScalarFieldEnum = {
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
-export const ExercisesScalarFieldEnum = {
+export const MealScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  calories: 'calories',
+  date: 'date',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MealScalarFieldEnum = (typeof MealScalarFieldEnum)[keyof typeof MealScalarFieldEnum]
+
+
+export const ExerciseScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   name: 'name',
@@ -100,24 +114,10 @@ export const ExercisesScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type ExercisesScalarFieldEnum = (typeof ExercisesScalarFieldEnum)[keyof typeof ExercisesScalarFieldEnum]
+export type ExerciseScalarFieldEnum = (typeof ExerciseScalarFieldEnum)[keyof typeof ExerciseScalarFieldEnum]
 
 
-export const MealsScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  name: 'name',
-  calories: 'calories',
-  date: 'date',
-  notes: 'notes',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type MealsScalarFieldEnum = (typeof MealsScalarFieldEnum)[keyof typeof MealsScalarFieldEnum]
-
-
-export const Water_logsScalarFieldEnum = {
+export const WaterScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   amount: 'amount',
@@ -126,7 +126,7 @@ export const Water_logsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 } as const
 
-export type Water_logsScalarFieldEnum = (typeof Water_logsScalarFieldEnum)[keyof typeof Water_logsScalarFieldEnum]
+export type WaterScalarFieldEnum = (typeof WaterScalarFieldEnum)[keyof typeof WaterScalarFieldEnum]
 
 
 export const IncomeRecordScalarFieldEnum = {
