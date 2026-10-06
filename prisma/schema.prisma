@@ -8,78 +8,99 @@ datasource db {
 }
 
 model User {
-  id              String              @id @default(cuid())
-  name            String
-  email           String              @unique
-  passwordHash    String
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @updatedAt
-  exerciseRecords ExerciseRecord[]
-  expenseRecords  ExpenseRecord[]
-  incomeRecords   IncomeRecord[]
-  mealRecords     MealRecord[]
-  savingsRecords  SavingsRecord[]
-  waterRecords    WaterIntakeRecord[]
+  id             String          @id @default(cuid())
+  name           String
+  email          String          @unique
+  passwordHash   String
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  exercises      exercises[]
+  meals          meals[]
+  water_logs     water_logs[]
+  incomeRecords  IncomeRecord[]
+  expenseRecords ExpenseRecord[]
+  savingsRecords SavingsRecord[]
 
   @@map("users")
 }
 
-model MealRecord {
-  id        Int      @id @default(autoincrement())
+model exercises {
+  id        String   @id
   userId    String
+  name      String
+  duration  Int
+  calories  Int
   date      DateTime
-  meal      String
   notes     String?
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  updatedAt DateTime
+  users     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model ExerciseRecord {
-  id        Int      @id @default(autoincrement())
+model meals {
+  id        String   @id
   userId    String
+  name      String
+  calories  Int
   date      DateTime
-  activity  String
-  duration  Int
+  notes     String?
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  updatedAt DateTime
+  users     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model WaterIntakeRecord {
-  id        Int      @id @default(autoincrement())
+model water_logs {
+  id        String   @id
   userId    String
+  amount    Int
   date      DateTime
-  quantity  Int
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  updatedAt DateTime
+  users     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model IncomeRecord {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   userId    String
-  amount    Float
+  amount    Decimal  @db.Decimal(12, 2)
   source    String
   date      DateTime
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@map("income_records")
 }
 
 model ExpenseRecord {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   userId    String
-  amount    Float
+  amount    Decimal  @db.Decimal(12, 2)
   category  String
   note      String?
   date      DateTime
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@map("expense_records")
 }
 
 model SavingsRecord {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(cuid())
   userId    String
-  amount    Float
-  goal      String?
+  amount    Decimal  @db.Decimal(12, 2)
   note      String?
+  date      DateTime
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([date])
+  @@map("savings_records")
 }
