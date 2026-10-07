@@ -206,13 +206,13 @@ export default async function AnalyticsPage({
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <header className="mb-8">
-        <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-emerald-700">
+        <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-amber-300">
           Your progress
         </p>
-        <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
+        <h1 className="text-3xl font-bold text-slate-50 sm:text-4xl">
           Analytics
         </h1>
-        <p className="mt-2 text-slate-600">
+        <p className="mt-2 text-slate-50">
           Explore your health and financial data one chart or summary at a time.
         </p>
       </header>
@@ -260,7 +260,7 @@ export default async function AnalyticsPage({
               </p>
             </div>
             <div className="overflow-x-auto">
-              <div className="flex min-w-[500px] justify-center">
+              <div className="flex min-w-125 justify-center">
                 {activeChart === "financial" && (
                   <FinancialChart data={financialData} />
                 )}
@@ -310,7 +310,7 @@ export default async function AnalyticsPage({
               </p>
             </div>
             <div className="overflow-x-auto">
-              <div className="flex min-w-[500px] justify-center">
+              <div className="flex min-w-125 justify-center">
                 {activeSummary === "weekly" && (
                   <WeeklyStats data={weeklyData} />
                 )}
