@@ -101,17 +101,17 @@ export default async function FinancesPage() {
     .slice(0, 6);
 
   return (
-    <section className="min-h-screen bg-slate-50">
+    <section className="min-h-screen bg-[#344054]">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
+            <p className="text-sm font-semibold uppercase tracking-wide text-amber-300">
               Financial Overview
             </p>
-            <h1 className="mt-2 text-3xl font-bold text-slate-900 sm:text-4xl">
+            <h1 className="mt-2 text-3xl font-bold text-slate-50 sm:text-4xl">
               Finances
             </h1>
-            <p className="mt-3 max-w-2xl text-slate-600">
+            <p className="mt-3 max-w-2xl text-slate-50">
               Track your income, expenses, savings,
               and overall financial position.
             </p>
