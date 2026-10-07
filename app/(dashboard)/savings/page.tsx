@@ -1,82 +1,93 @@
-"use client";
-
-import { useState } from "react";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import SavingsCard from "@/components/finance/SavingsCard";
 import SavingsForm from "@/components/finance/SavingsForm";
 import SavingsList from "@/components/finance/SavingsList";
+import { getAuthenticatedUserId } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
-interface Saving {
-  id: string;
+interface SavingsFormData {
   amount: number;
   note?: string;
   date: string;
 }
 
-type SavingsFormData = Omit<Saving, "id"> & {
-  id?: string;
-};
+export default async function SavingsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ edit?: string }>;
+}) {
+  const userId = await getAuthenticatedUserId();
+  if (!userId) return null;
+  const { edit } = await searchParams;
 
-export default function SavingsPage() {
-  const [savings, setSavings] = useState<Saving[]>([]);
-  const [editingSaving, setEditingSaving] = useState<
-    Saving | undefined
-  >();
-  const [formVersion, setFormVersion] = useState(0);
-
+  const records = await prisma.savingsRecord.findMany({
+    where: { userId },
+    orderBy: [{ date: "desc" }, { createdAt: "desc" }],
+  });
+  const savings = records.map((record) => ({
+    id: record.id,
+    amount: Number(record.amount),
+    note: record.note ?? undefined,
+    date: record.date.toISOString().slice(0, 10),
+  }));
+  const editingSaving = savings.find((saving) => saving.id === edit);
   const totalSavings = savings.reduce(
     (total, saving) => total + saving.amount,
     0,
   );
 
-  const handleSubmit = async (data: SavingsFormData) => {
-    if (!Number.isFinite(data.amount) || data.amount <= 0) {
-      return;
-    }
+  async function saveSaving(id: string | null, data: SavingsFormData) {
+    "use server";
+    const authenticatedUserId = await getAuthenticatedUserId();
+    if (!authenticatedUserId) throw new Error("Unauthorized");
+    if (
+      !Number.isFinite(data.amount) ||
+      data.amount <= 0 ||
+      typeof data.date !== "string" ||
+      Number.isNaN(new Date(data.date).getTime())
+    )
+      throw new Error("Invalid savings data");
 
-    if (!data.date) {
-      return;
-    }
-
-    if (editingSaving) {
-      setSavings((current) =>
-        current.map((saving) =>
-          saving.id === editingSaving.id
-            ? {
-                ...data,
-                id: editingSaving.id,
-              }
-            : saving,
-        ),
-      );
-
-      setEditingSaving(undefined);
+    const savingData = {
+      amount: data.amount,
+      note: typeof data.note === "string" ? data.note.trim() || null : null,
+      date: new Date(`${data.date}T00:00:00.000Z`),
+    };
+    if (id) {
+      const result = await prisma.savingsRecord.updateMany({
+        where: { id, userId: authenticatedUserId },
+        data: savingData,
+      });
+      if (result.count === 0) throw new Error("Savings record not found");
     } else {
-      setSavings((current) => [
-        ...current,
-        {
-          ...data,
-          id: crypto.randomUUID(),
-        },
-      ]);
+      await prisma.savingsRecord.create({
+        data: { ...savingData, userId: authenticatedUserId },
+      });
     }
+    revalidatePath("/savings");
+    redirect("/savings");
+  }
 
-    setFormVersion((version) => version + 1);
-  };
+  async function deleteSaving(id: string) {
+    "use server";
+    const authenticatedUserId = await getAuthenticatedUserId();
+    if (!authenticatedUserId) throw new Error("Unauthorized");
+    await prisma.savingsRecord.deleteMany({
+      where: { id, userId: authenticatedUserId },
+    });
+    revalidatePath("/savings");
+  }
 
-  const handleDelete = async (id: string) => {
-    setSavings((current) =>
-      current.filter((saving) => saving.id !== id),
-    );
+  async function startEditing(saving: { id: string }) {
+    "use server";
+    redirect(`/savings?edit=${encodeURIComponent(saving.id)}`);
+  }
 
-    if (editingSaving?.id === id) {
-      setEditingSaving(undefined);
-    }
-  };
-
-  const handleCancel = () => {
-    setEditingSaving(undefined);
-    setFormVersion((version) => version + 1);
-  };
+  async function cancelEditing() {
+    "use server";
+    redirect("/savings");
+  }
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
@@ -84,24 +95,16 @@ export default function SavingsPage() {
         <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-emerald-700">
           Personal finances
         </p>
-
         <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
           Savings
         </h1>
-
         <p className="mt-2 text-slate-600">
           Track the money you set aside and monitor your total savings.
         </p>
       </header>
 
-      <section
-        aria-label="Savings overview"
-        className="mb-8"
-      >
-        <SavingsCard
-          name="Total saved"
-          savings={totalSavings}
-        />
+      <section aria-label="Savings overview" className="mb-8">
+        <SavingsCard name="Total saved" savings={totalSavings} />
       </section>
 
       <div className="grid items-start gap-8 lg:grid-cols-3">
@@ -114,21 +117,17 @@ export default function SavingsPage() {
               id="savings-form-heading"
               className="text-xl font-semibold text-slate-900"
             >
-              {editingSaving
-                ? "Edit savings"
-                : "Add a savings record"}
+              {editingSaving ? "Edit savings" : "Add a savings record"}
             </h2>
-
             <p className="mt-1 text-sm text-slate-600">
               Record an amount you have added to your savings.
             </p>
           </div>
-
           <SavingsForm
-            key={`${editingSaving?.id ?? "new"}-${formVersion}`}
+            key={`saving-${editingSaving?.id ?? "new"}`}
             saving={editingSaving}
-            onSubmit={handleSubmit}
-            onCancel={handleCancel}
+            onSubmit={saveSaving.bind(null, editingSaving?.id ?? null)}
+            onCancel={cancelEditing}
           />
         </section>
 
@@ -143,20 +142,15 @@ export default function SavingsPage() {
             >
               Savings records
             </h2>
-
             <p className="mt-1 text-sm text-slate-600">
-              {savings.length}{" "}
-              {savings.length === 1
-                ? "record"
-                : "records"}{" "}
+              {savings.length} {savings.length === 1 ? "record" : "records"}{" "}
               tracked
             </p>
           </div>
-
           <SavingsList
             savings={savings}
-            onEdit={setEditingSaving}
-            onDelete={handleDelete}
+            onEdit={startEditing}
+            onDelete={deleteSaving}
           />
         </section>
       </div>
