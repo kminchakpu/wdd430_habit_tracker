@@ -4,6 +4,9 @@ import { redirect } from "next/navigation";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
+import HealthSummary from "@/components/dashboard/HealthSummary";
+import DashboardCharts from "@/components/dashboard/DashboardCharts";
+
 export default async function DashboardPage() {
   const userId = await getAuthenticatedUserId();
 
@@ -137,6 +140,14 @@ export default async function DashboardPage() {
               </Link>
             </div>
           </div>
+        </div>
+
+        <div className="mt-8">
+          <HealthSummary />
+        </div>
+
+        <div className="mt-8">
+          <DashboardCharts />
         </div>
 
         <div className="mt-8 rounded-2xl bg-[#1d2939] px-6 py-7 text-white">
