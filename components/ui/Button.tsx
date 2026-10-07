@@ -11,7 +11,8 @@ type ButtonSize =
   | "md"
   | "lg";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -27,6 +28,7 @@ export default function Button({
   fullWidth = false,
   disabled,
   className = "",
+  type = "button",
   ...props
 }: ButtonProps) {
   const baseStyles =
@@ -51,6 +53,7 @@ export default function Button({
 
   return (
     <button
+      type={type}
       disabled={disabled || isLoading}
       className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${
         fullWidth ? "w-full" : ""

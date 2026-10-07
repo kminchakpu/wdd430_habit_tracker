@@ -1,227 +1,196 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
-interface Meal {
-  calories: number;
+interface HealthProgress {
+  current: number;
+  goal: number;
 }
 
-interface Exercise {
+interface ExerciseSummary {
   duration: number;
-  calories: number;
+  caloriesBurned: number;
 }
 
-interface Water {
-  amount: number;
-  date: string;
+interface HealthSummaryProps {
+  calories: HealthProgress;
+  exercise: ExerciseSummary;
+  water: HealthProgress;
 }
 
-export default function HealthSummary() {
-  const [loading, setLoading] = useState(true);
-
-  const [mealCount, setMealCount] = useState(0);
-  const [caloriesConsumed, setCaloriesConsumed] = useState(0);
-
-  const [exerciseMinutes, setExerciseMinutes] = useState(0);
-  const [caloriesBurned, setCaloriesBurned] = useState(0);
-
-  const [waterIntake, setWaterIntake] = useState(0);
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [mealRes, exerciseRes, waterRes] =
-          await Promise.all([
-            fetch("/api/meals"),
-            fetch("/api/exercise"),
-            fetch("/api/water"),
-          ]);
-
-        const mealData = await mealRes.json();
-        const exerciseData = await exerciseRes.json();
-        const waterData = await waterRes.json();
-
-        const meals = mealData.meals ?? [];
-        const exercises = exerciseData.exercises ?? [];
-        const waterLogs = waterData.waterLogs ?? [];
-
-        const today = new Date()
-          .toISOString()
-          .split("T")[0];
-
-        const todayMeals = meals.filter(
-          (meal: { date: string }) =>
-            new Date(meal.date)
-              .toISOString()
-              .split("T")[0] === today
-        );
-
-        const todayExercises = exercises.filter(
-          (exercise: { date: string }) =>
-            new Date(exercise.date)
-              .toISOString()
-              .split("T")[0] === today
-        );
-
-        const todayWater = waterLogs.filter(
-          (water: { date: string }) =>
-            new Date(water.date)
-              .toISOString()
-              .split("T")[0] === today
-        );
-
-        setMealCount(todayMeals.length);
-
-        setCaloriesConsumed(
-          todayMeals.reduce(
-            (sum: number, meal: Meal) =>
-              sum + meal.calories,
-            0
-          )
-        );
-
-        setExerciseMinutes(
-          todayExercises.reduce(
-            (sum: number, exercise: Exercise) =>
-              sum + exercise.duration,
-            0
-          )
-        );
-
-        setCaloriesBurned(
-          todayExercises.reduce(
-            (sum: number, exercise: Exercise) =>
-              sum + exercise.calories,
-            0
-          )
-        );
-
-        setWaterIntake(
-          todayWater.reduce(
-            (sum: number, water: Water) =>
-              sum + water.amount,
-            0
-          )
-        );
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void loadData();
-  }, []);
-
-  const WATER_GOAL = 2000;
-  const EXERCISE_GOAL = 30;
-  const MEAL_GOAL = 3;
-
-  const healthScore = Math.round(
-    Math.min(waterIntake / WATER_GOAL, 1) * 40 +
-      Math.min(exerciseMinutes / EXERCISE_GOAL, 1) * 30 +
-      Math.min(mealCount / MEAL_GOAL, 1) * 30
-  );
-
-  if (loading) {
-    return (
-      <div className="rounded-2xl border bg-white p-6 shadow-sm">
-        Loading health summary...
-      </div>
-    );
+function getProgressPercentage(
+  current: number,
+  goal: number
+) {
+  if (goal <= 0) {
+    return 0;
   }
 
+  return Math.min(
+    Math.max((current / goal) * 100, 0),
+    100
+  );
+}
+
+function formatNumber(value: number) {
+  return new Intl.NumberFormat(
+    "en-US"
+  ).format(value);
+}
+
+export default function HealthSummary({
+  calories,
+  exercise,
+  water,
+}: HealthSummaryProps) {
+  const calorieProgress =
+    getProgressPercentage(
+      calories.current,
+      calories.goal
+    );
+
+  const waterProgress =
+    getProgressPercentage(
+      water.current,
+      water.goal
+    );
+
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-6 text-2xl font-bold text-slate-900">
-        Health Summary
+    <section
+      aria-labelledby="health-summary-heading"
+      className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+    >
+      <div className="mb-6">
+        <h2
+          id="health-summary-heading"
+          className="text-lg font-bold text-slate-900"
+        >
+          Health Summary
         </h2>
 
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <p className="text-sm font-medium text-slate-500">
-            Meals Logged
-            </p>
+        <p className="mt-1 text-sm text-slate-500">
+          Your health activity for the selected
+          period
+        </p>
+      </div>
 
-            <p className="mt-2 text-3xl font-bold text-slate-900">
-            {mealCount}
-            </p>
+      <div className="space-y-6">
+        <div>
+          <div className="mb-2 flex items-center justify-between gap-4">
+            <div>
+              <h3 className="text-sm font-semibold text-slate-700">
+                Calories
+              </h3>
+
+              <p className="mt-1 text-sm text-slate-500">
+                {formatNumber(
+                  calories.current
+                )}{" "}
+                /{" "}
+                {formatNumber(
+                  calories.goal
+                )}{" "}
+                kcal
+              </p>
+            </div>
+
+            <span className="text-sm font-semibold text-slate-700">
+              {Math.round(
+                calorieProgress
+              )}
+              %
+            </span>
+          </div>
+
+          <div
+            className="h-2.5 overflow-hidden rounded-full bg-slate-100"
+            role="progressbar"
+            aria-label="Calorie progress"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(
+              calorieProgress
+            )}
+          >
+            <div
+              className="h-full rounded-full bg-blue-600 transition-all"
+              style={{
+                width: `${calorieProgress}%`,
+              }}
+            />
+          </div>
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <p className="text-sm font-medium text-slate-500">
-            Water Intake
-            </p>
-
-            <p className="mt-2 text-3xl font-bold text-slate-900">
-            {waterIntake}
-            </p>
-
-            <p className="text-xs text-slate-500">
-            ml
-            </p>
-        </div>
-
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <p className="text-sm font-medium text-slate-500">
+        <div className="rounded-lg bg-slate-50 p-4">
+          <h3 className="text-sm font-semibold text-slate-700">
             Exercise
-            </p>
+          </h3>
 
-            <p className="mt-2 text-3xl font-bold text-slate-900">
-            {exerciseMinutes}
-            </p>
+          <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-2xl font-bold text-slate-900">
+                {formatNumber(
+                  exercise.duration
+                )}{" "}
+                min
+              </p>
 
-            <p className="text-xs text-slate-500">
-            minutes
-            </p>
-        </div>
+              <p className="mt-1 text-sm text-slate-500">
+                {formatNumber(
+                  exercise.caloriesBurned
+                )}{" "}
+                kcal burned
+              </p>
+            </div>
 
-        <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <p className="text-sm font-medium text-slate-500">
-            Calories Burned
-            </p>
-
-            <p className="mt-2 text-3xl font-bold text-slate-900">
-            {caloriesBurned}
-            </p>
-        </div>
-        </div>
-
-        <div className="mt-6 rounded-xl border border-emerald-200 bg-emerald-50 p-5">
-        <p className="text-sm font-semibold text-emerald-700">
-            Overall Health Score
-        </p>
-
-        <p className="mt-1 text-5xl font-bold text-slate-900">
-            {healthScore}%
-        </p>
-
-        <p className="mt-2 text-sm text-slate-600">
-            {healthScore >= 80
-            ? "Excellent progress today"
-            : healthScore >= 60
-            ? "Good progress today"
-            : healthScore >= 40
-            ? "Keep building momentum"
-            : "Log more healthy activities today"}
-        </p>
-
-        <div className="mt-4 flex flex-wrap gap-6 text-sm text-slate-700">
-            <span>
-            Calories Consumed: <strong>{caloriesConsumed}</strong>
+            <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+              Selected period
             </span>
-
-            <span>
-            Water Goal:{" "}
-            <strong>
-                {Math.round(
-                (waterIntake / WATER_GOAL) * 100
-                )}
-                %
-            </strong>
-            </span>
+          </div>
         </div>
-    </div>
-  </div>
-);
+
+        <div>
+          <div className="mb-2 flex items-center justify-between gap-4">
+            <div>
+              <h3 className="text-sm font-semibold text-slate-700">
+                Water
+              </h3>
+
+              <p className="mt-1 text-sm text-slate-500">
+                {formatNumber(
+                  water.current
+                )}{" "}
+                /{" "}
+                {formatNumber(
+                  water.goal
+                )}{" "}
+                ml
+              </p>
+            </div>
+
+            <span className="text-sm font-semibold text-slate-700">
+              {Math.round(
+                waterProgress
+              )}
+              %
+            </span>
+          </div>
+
+          <div
+            className="h-2.5 overflow-hidden rounded-full bg-slate-100"
+            role="progressbar"
+            aria-label="Water progress"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(
+              waterProgress
+            )}
+          >
+            <div
+              className="h-full rounded-full bg-cyan-500 transition-all"
+              style={{
+                width: `${waterProgress}%`,
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

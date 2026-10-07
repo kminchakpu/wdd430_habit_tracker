@@ -1,217 +1,230 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
 } from "recharts";
 
-const COLORS = [
-  "#059669", // emerald-600
-  "#344054", // site blue-gray
-];
+export interface HealthChartData {
+  date: string;
+  calories: number;
+  exercise: number;
+  water: number;
+}
 
-export default function DashboardCharts() {
-  const [waterData, setWaterData] = useState([
-    { name: "Consumed", value: 0 },
-    { name: "Remaining", value: 2000 },
-  ]);
+export interface FinanceChartData {
+  date: string;
+  income: number;
+  expenses: number;
+  savings: number;
+}
 
-  type CalorieData = {
-    name: string;
-    calories: number;
-    fill: string;
-    };
+interface DashboardChartsProps {
+  healthData: HealthChartData[];
+  financeData: FinanceChartData[];
+}
 
-    const [calorieData, setCalorieData] = useState<CalorieData[]>([
-    {
-        name: "Consumed",
-        calories: 0,
-        fill: "#059669",
-    },
-    {
-        name: "Burned",
-        calories: 0,
-        fill: "#344054",
-    },
-    ]);
+function formatCurrency(value: number) {
+  return `₦${new Intl.NumberFormat(
+    "en-NG"
+  ).format(value)}`;
+}
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [mealRes, exerciseRes, waterRes] =
-          await Promise.all([
-            fetch("/api/meals"),
-            fetch("/api/exercise"),
-            fetch("/api/water"),
-          ]);
-
-        const mealData = await mealRes.json();
-        const exerciseData = await exerciseRes.json();
-        const waterDataResponse =
-          await waterRes.json();
-
-        const meals = mealData.meals ?? [];
-        const exercises =
-          exerciseData.exercises ?? [];
-        const waterLogs =
-          waterDataResponse.waterLogs ?? [];
-
-        const today = new Date()
-          .toISOString()
-          .split("T")[0];
-
-        const caloriesConsumed = meals
-          .filter(
-            (meal: { date: string }) =>
-              new Date(meal.date)
-                .toISOString()
-                .split("T")[0] === today
-          )
-          .reduce(
-            (
-              sum: number,
-              meal: { calories: number }
-            ) => sum + meal.calories,
-            0
-          );
-
-        const caloriesBurned = exercises
-          .filter(
-            (exercise: { date: string }) =>
-              new Date(exercise.date)
-                .toISOString()
-                .split("T")[0] === today
-          )
-          .reduce(
-            (
-              sum: number,
-              exercise: { calories: number }
-            ) => sum + exercise.calories,
-            0
-          );
-
-        const waterConsumed = waterLogs
-          .filter(
-            (water: { date: string }) =>
-              new Date(water.date)
-                .toISOString()
-                .split("T")[0] === today
-          )
-          .reduce(
-            (
-              sum: number,
-              water: { amount: number }
-            ) => sum + water.amount,
-            0
-          );
-
-        setCalorieData([
-            {
-                name: "Consumed",
-                calories: caloriesConsumed,
-                fill: "#059669",
-            },
-            {
-                name: "Burned",
-                calories: caloriesBurned,
-                fill: "#344054",
-            },
-            ]);
-
-        setWaterData([
-          {
-            name: "Consumed",
-            value: waterConsumed,
-          },
-          {
-            name: "Remaining",
-            value: Math.max(
-              2000 - waterConsumed,
-              0
-            ),
-          },
-        ]);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    void loadData();
-  }, []);
-
+export default function DashboardCharts({
+  healthData,
+  financeData,
+}: DashboardChartsProps) {
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-2 text-xl font-bold text-slate-900">
-            Daily Water Goal
-            </h2>
+    <section
+      aria-label="Dashboard charts"
+      className="grid grid-cols-1 gap-6 xl:grid-cols-2"
+    >
+      <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-slate-900">
+            Health Activity
+          </h2>
 
-            <p className="mb-4 text-sm text-slate-500">
-                Progress toward today&apos;s 2,000ml goal
+          <p className="mt-1 text-sm text-slate-500">
+            Calories, exercise, and water trends
+          </p>
+        </div>
+
+        {healthData.length === 0 ? (
+          <div className="flex h-72 items-center justify-center rounded-lg bg-slate-50">
+            <p className="text-sm text-slate-500">
+              No health data available.
             </p>
-
-        <div className="h-72">
-          <ResponsiveContainer>
-            <PieChart>
-              <Pie
-                data={waterData}
-                dataKey="value"
-                outerRadius={100}
+          </div>
+        ) : (
+          <div className="h-72 w-full">
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+            >
+              <LineChart
+                data={healthData}
+                margin={{
+                  top: 10,
+                  right: 10,
+                  left: 0,
+                  bottom: 0,
+                }}
               >
-                {waterData.map((_, index) => (
-                  <Cell
-                    key={index}
-                    fill={
-                      COLORS[
-                        index % COLORS.length
-                      ]
-                    }
-                  />
-                ))}
-              </Pie>
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  vertical={false}
+                />
 
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+                <XAxis
+                  dataKey="date"
+                  tickLine={false}
+                  axisLine={false}
+                />
+
+                <YAxis
+                  tickLine={false}
+                  axisLine={false}
+                  width={50}
+                />
+
+                <Tooltip />
+
+                <Legend />
+
+                <Line
+                  type="monotone"
+                  dataKey="calories"
+                  name="Calories"
+                  stroke="#2563eb"
+                  strokeWidth={2}
+                  dot={false}
+                />
+
+                <Line
+                  type="monotone"
+                  dataKey="exercise"
+                  name="Exercise"
+                  stroke="#16a34a"
+                  strokeWidth={2}
+                  dot={false}
+                />
+
+                <Line
+                  type="monotone"
+                  dataKey="water"
+                  name="Water"
+                  stroke="#0891b2"
+                  strokeWidth={2}
+                  dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+      </article>
+
+      <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-slate-900">
+            Financial Activity
+          </h2>
+
+          <p className="mt-1 text-sm text-slate-500">
+            Income, expenses, and savings trends
+          </p>
         </div>
-      </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-2 text-xl font-bold text-slate-900">
-            Calories In vs Out
-            </h2>
-
-            <p className="mb-4 text-sm text-slate-500">
-                Today&apos;s calories consumed compared to calories burned
+        {financeData.length === 0 ? (
+          <div className="flex h-72 items-center justify-center rounded-lg bg-slate-50">
+            <p className="text-sm text-slate-500">
+              No financial data available.
             </p>
+          </div>
+        ) : (
+          <div className="h-72 w-full">
+            <ResponsiveContainer
+              width="100%"
+              height="100%"
+            >
+              <BarChart
+                data={financeData}
+                margin={{
+                  top: 10,
+                  right: 10,
+                  left: 10,
+                  bottom: 0,
+                }}
+              >
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  vertical={false}
+                />
 
-        <div className="h-72">
-          <ResponsiveContainer>
-            <BarChart data={calorieData}>
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="calories">
-                {calorieData.map((entry, index) => (
-                    <Cell
-                    key={index}
-                    fill={entry.fill}
-                    />
-                ))}
-                </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-    </div>
+                <XAxis
+                  dataKey="date"
+                  tickLine={false}
+                  axisLine={false}
+                />
+
+                <YAxis
+                  tickFormatter={(
+                    value: number
+                  ) =>
+                    value >= 1000
+                      ? `${Math.round(
+                          value / 1000
+                        )}k`
+                      : `${value}`
+                  }
+                  tickLine={false}
+                  axisLine={false}
+                  width={50}
+                />
+
+                <Tooltip
+                  formatter={(value) =>
+                    formatCurrency(
+                      Number(value)
+                    )
+                  }
+                />
+
+                <Legend />
+
+                <Bar
+                  dataKey="income"
+                  name="Income"
+                  fill="#16a34a"
+                  radius={[4, 4, 0, 0]}
+                />
+
+                <Bar
+                  dataKey="expenses"
+                  name="Expenses"
+                  fill="#dc2626"
+                  radius={[4, 4, 0, 0]}
+                />
+
+                <Bar
+                  dataKey="savings"
+                  name="Savings"
+                  fill="#2563eb"
+                  radius={[4, 4, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+      </article>
+    </section>
   );
 }
