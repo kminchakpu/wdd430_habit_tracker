@@ -14,7 +14,10 @@ interface HealthSummaryProps {
   water: HealthProgress;
 }
 
-function getProgressPercentage(current: number, goal: number) {
+function getProgressPercentage(
+  current: number,
+  goal: number
+) {
   if (goal <= 0) {
     return 0;
   }
@@ -26,7 +29,9 @@ function getProgressPercentage(current: number, goal: number) {
 }
 
 function formatNumber(value: number) {
-  return new Intl.NumberFormat("en-US").format(value);
+  return new Intl.NumberFormat(
+    "en-US"
+  ).format(value);
 }
 
 export default function HealthSummary({
@@ -34,15 +39,17 @@ export default function HealthSummary({
   exercise,
   water,
 }: HealthSummaryProps) {
-  const calorieProgress = getProgressPercentage(
-    calories.current,
-    calories.goal
-  );
+  const calorieProgress =
+    getProgressPercentage(
+      calories.current,
+      calories.goal
+    );
 
-  const waterProgress = getProgressPercentage(
-    water.current,
-    water.goal
-  );
+  const waterProgress =
+    getProgressPercentage(
+      water.current,
+      water.goal
+    );
 
   return (
     <section
@@ -58,7 +65,8 @@ export default function HealthSummary({
         </h2>
 
         <p className="mt-1 text-sm text-slate-500">
-          Your health activity for today
+          Your health activity for the selected
+          period
         </p>
       </div>
 
@@ -71,13 +79,22 @@ export default function HealthSummary({
               </h3>
 
               <p className="mt-1 text-sm text-slate-500">
-                {formatNumber(calories.current)} /{" "}
-                {formatNumber(calories.goal)} kcal
+                {formatNumber(
+                  calories.current
+                )}{" "}
+                /{" "}
+                {formatNumber(
+                  calories.goal
+                )}{" "}
+                kcal
               </p>
             </div>
 
             <span className="text-sm font-semibold text-slate-700">
-              {Math.round(calorieProgress)}%
+              {Math.round(
+                calorieProgress
+              )}
+              %
             </span>
           </div>
 
@@ -87,7 +104,9 @@ export default function HealthSummary({
             aria-label="Calorie progress"
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-valuenow={Math.round(calorieProgress)}
+            aria-valuenow={Math.round(
+              calorieProgress
+            )}
           >
             <div
               className="h-full rounded-full bg-blue-600 transition-all"
@@ -106,16 +125,22 @@ export default function HealthSummary({
           <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
             <div>
               <p className="text-2xl font-bold text-slate-900">
-                {formatNumber(exercise.duration)} min
+                {formatNumber(
+                  exercise.duration
+                )}{" "}
+                min
               </p>
 
               <p className="mt-1 text-sm text-slate-500">
-                {formatNumber(exercise.caloriesBurned)} kcal burned
+                {formatNumber(
+                  exercise.caloriesBurned
+                )}{" "}
+                kcal burned
               </p>
             </div>
 
             <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
-              Today
+              Selected period
             </span>
           </div>
         </div>
@@ -128,13 +153,22 @@ export default function HealthSummary({
               </h3>
 
               <p className="mt-1 text-sm text-slate-500">
-                {formatNumber(water.current)} /{" "}
-                {formatNumber(water.goal)} ml
+                {formatNumber(
+                  water.current
+                )}{" "}
+                /{" "}
+                {formatNumber(
+                  water.goal
+                )}{" "}
+                ml
               </p>
             </div>
 
             <span className="text-sm font-semibold text-slate-700">
-              {Math.round(waterProgress)}%
+              {Math.round(
+                waterProgress
+              )}
+              %
             </span>
           </div>
 
@@ -144,7 +178,9 @@ export default function HealthSummary({
             aria-label="Water progress"
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-valuenow={Math.round(waterProgress)}
+            aria-valuenow={Math.round(
+              waterProgress
+            )}
           >
             <div
               className="h-full rounded-full bg-cyan-500 transition-all"

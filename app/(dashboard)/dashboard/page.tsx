@@ -35,7 +35,9 @@ const validPeriods: DashboardPeriod[] = [
 function isDashboardPeriod(
   value: string | undefined
 ): value is DashboardPeriod {
-  return validPeriods.includes(value as DashboardPeriod);
+  return validPeriods.includes(
+    value as DashboardPeriod
+  );
 }
 
 export default async function DashboardPage({
@@ -55,7 +57,8 @@ export default async function DashboardPage({
     ? params.period
     : "30d";
 
-  const periodStart = getDashboardPeriodStart(period);
+  const periodStart =
+    getDashboardPeriodStart(period);
 
   const [
     user,
@@ -174,13 +177,15 @@ export default async function DashboardPage({
       type: income.type,
       date: income.date,
     })),
-    expenses: expenseRecords.map((expense) => ({
-      id: expense.id,
-      amount: Number(expense.amount),
-      category: expense.category,
-      note: expense.note,
-      date: expense.date,
-    })),
+    expenses: expenseRecords.map(
+      (expense) => ({
+        id: expense.id,
+        amount: Number(expense.amount),
+        category: expense.category,
+        note: expense.note,
+        date: expense.date,
+      })
+    ),
     savings: savingsRecords.map((saving) => ({
       id: saving.id,
       amount: Number(saving.amount),
@@ -189,20 +194,28 @@ export default async function DashboardPage({
     })),
   };
 
-  const summary = calculateDashboardSummary(records);
-  const activities = buildRecentActivities(records);
+  const summary =
+    calculateDashboardSummary(records);
+
+  const activities =
+    buildRecentActivities(records);
 
   const { healthData, financeData } =
     buildDashboardChartData(records);
 
-  const firstName = user.name.trim().split(/\s+/)[0];
+  const firstName =
+    user.name.trim().split(/\s+/)[0];
 
-  const savings = records.savings.map((saving) => ({
-    id: saving.id,
-    amount: saving.amount,
-    note: saving.note ?? undefined,
-    date: saving.date.toISOString().split("T")[0],
-  }));
+  const savings = records.savings.map(
+    (saving) => ({
+      id: saving.id,
+      amount: saving.amount,
+      note: saving.note ?? undefined,
+      date: saving.date
+        .toISOString()
+        .split("T")[0],
+    })
+  );
 
   const stats = [
     {
@@ -251,12 +264,15 @@ export default async function DashboardPage({
             </h1>
 
             <p className="mt-3 max-w-2xl text-slate-600">
-              Track your daily habits and stay on top of your
-              health and finances from one place.
+              Track your daily habits and stay on
+              top of your health and finances from
+              one place.
             </p>
           </div>
 
-          <DashboardPeriodSelector value={period} />
+          <DashboardPeriodSelector
+            value={period}
+          />
         </div>
 
         <DashboardStats stats={stats} />
@@ -268,8 +284,10 @@ export default async function DashboardPage({
               goal: 2000,
             }}
             exercise={{
-              duration: summary.exerciseDuration,
-              caloriesBurned: summary.exerciseCalories,
+              duration:
+                summary.exerciseDuration,
+              caloriesBurned:
+                summary.exerciseCalories,
             }}
             water={{
               current: summary.water,
@@ -293,7 +311,9 @@ export default async function DashboardPage({
         <div className="mt-8 grid gap-6 xl:grid-cols-2">
           <SavingsSummary savings={savings} />
 
-          <RecentActivity activities={activities} />
+          <RecentActivity
+            activities={activities}
+          />
         </div>
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
@@ -355,12 +375,14 @@ export default async function DashboardPage({
 
         <div className="mt-8 rounded-2xl bg-[#1d2939] px-6 py-7 text-white">
           <h2 className="text-xl font-bold">
-            Small habits create meaningful progress.
+            Small habits create meaningful
+            progress.
           </h2>
 
           <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
-            Keep your records up to date so you can better
-            understand your health and financial habits over time.
+            Keep your records up to date so you
+            can better understand your health and
+            financial habits over time.
           </p>
         </div>
       </div>

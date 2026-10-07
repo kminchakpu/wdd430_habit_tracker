@@ -33,7 +33,9 @@ interface DashboardChartsProps {
 }
 
 function formatCurrency(value: number) {
-  return `₦${new Intl.NumberFormat("en-NG").format(value)}`;
+  return `₦${new Intl.NumberFormat(
+    "en-NG"
+  ).format(value)}`;
 }
 
 export default function DashboardCharts({
@@ -50,6 +52,7 @@ export default function DashboardCharts({
           <h2 className="text-lg font-bold text-slate-900">
             Health Activity
           </h2>
+
           <p className="mt-1 text-sm text-slate-500">
             Calories, exercise, and water trends
           </p>
@@ -134,6 +137,7 @@ export default function DashboardCharts({
           <h2 className="text-lg font-bold text-slate-900">
             Financial Activity
           </h2>
+
           <p className="mt-1 text-sm text-slate-500">
             Income, expenses, and savings trends
           </p>
@@ -172,9 +176,13 @@ export default function DashboardCharts({
                 />
 
                 <YAxis
-                  tickFormatter={(value: number) =>
+                  tickFormatter={(
+                    value: number
+                  ) =>
                     value >= 1000
-                      ? `${Math.round(value / 1000)}k`
+                      ? `${Math.round(
+                          value / 1000
+                        )}k`
                       : `${value}`
                   }
                   tickLine={false}
@@ -184,7 +192,9 @@ export default function DashboardCharts({
 
                 <Tooltip
                   formatter={(value) =>
-                    formatCurrency(Number(value))
+                    formatCurrency(
+                      Number(value)
+                    )
                   }
                 />
 
