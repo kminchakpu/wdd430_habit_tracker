@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-interface ExpenseRequestBody {
+type IncomeType = "fixed" | "variable";
+
+interface IncomeRequestBody {
   description?: string;
   amount?: number;
-  category?: string;
-  date?: string;
+  type?: IncomeType;
+  startDate?: string;
 }
 
 interface RouteContext {
@@ -15,34 +17,19 @@ interface RouteContext {
   }>;
 }
 
-function parseDate(value?: string) {
+function isValidIncomeType(type: string): type is IncomeType {
+  return type === "fixed" || type === "variable";
+}
+
+function parseOptionalDate(value?: string) {
   if (!value) {
     return null;
   }
-
   const date = new Date(`${value}T00:00:00.000Z`);
-
   if (Number.isNaN(date.getTime())) {
     return null;
   }
-
   return date;
-}
-
-function serializeExpense(record: {
-  id: string;
-  note: string | null;
-  amount: unknown;
-  category: string;
-  date: Date;
-}) {
-  return {
-    id: record.id,
-    description: record.note ?? "",
-    amount: Number(record.amount),
-    category: record.category,
-    date: record.date.toISOString().slice(0, 10),
-  };
 }
 
 export async function PATCH(
@@ -51,91 +38,80 @@ export async function PATCH(
 ) {
   try {
     const userId = await getAuthenticatedUserId();
-
     if (!userId) {
       return NextResponse.json(
         { message: "Unauthorized." },
         { status: 401 }
       );
     }
-
     const { id } = await context.params;
-
-    const existingExpense =
-      await prisma.expenseRecord.findFirst({
-        where: {
-          id,
-          userId,
-        },
-      });
-
-    if (!existingExpense) {
+    const existingIncome = await prisma.incomeRecord.findFirst({
+      where: {
+        id,
+        userId,
+      },
+    });
+    if (!existingIncome) {
       return NextResponse.json(
-        { message: "Expense record not found." },
+        { message: "Income record not found." },
         { status: 404 }
       );
     }
-
-    const body =
-      (await request.json()) as ExpenseRequestBody;
-
+    const body = (await request.json()) as IncomeRequestBody;
     const description = body.description?.trim();
-    const category = body.category?.trim();
     const amount = Number(body.amount);
-    const date = parseDate(body.date);
-
     if (!description) {
       return NextResponse.json(
         { message: "Description is required." },
         { status: 400 }
       );
     }
-
     if (!Number.isFinite(amount) || amount <= 0) {
       return NextResponse.json(
         { message: "Amount must be greater than zero." },
         { status: 400 }
       );
     }
-
-    if (!category) {
+    if (!body.type || !isValidIncomeType(body.type)) {
       return NextResponse.json(
-        { message: "Category is required." },
+        {
+          message:
+            "Income type must be either fixed or variable.",
+        },
         { status: 400 }
       );
     }
-
-    if (!date) {
+    const date = parseOptionalDate(body.startDate);
+    if (body.startDate && !date) {
       return NextResponse.json(
-        { message: "A valid date is required." },
+        { message: "Start date is invalid." },
         { status: 400 }
       );
     }
-
-    const updatedExpense =
-      await prisma.expenseRecord.update({
-        where: {
-          id: existingExpense.id,
-        },
-        data: {
-          amount,
-          category,
-          note: description,
-          date,
-        },
-      });
-
-    return NextResponse.json(
-      serializeExpense(updatedExpense)
-    );
+    const updatedIncome = await prisma.incomeRecord.update({
+      where: {
+        id: existingIncome.id,
+      },
+      data: {
+        source: description,
+        amount,
+        type: body.type,
+        date,
+      },
+    });
+    return NextResponse.json({
+      id: updatedIncome.id,
+      description: updatedIncome.source,
+      amount: Number(updatedIncome.amount),
+      type: updatedIncome.type,
+      startDate: updatedIncome.date
+        ? updatedIncome.date.toISOString().split("T")[0]
+        : undefined,
+    });
   } catch (error) {
-    console.error(
-      "PATCH /api/expenses/[id] error:",
-      error
-    );
-
+    console.error("PATCH /api/income/[id] error:", error);
     return NextResponse.json(
-      { message: "Unable to update expense record." },
+      { message: "Unable to update income record." },
       { status: 500 }
     );
   }
@@ -147,51 +123,40 @@ export async function DELETE(
 ) {
   try {
     const userId = await getAuthenticatedUserId();
-
     if (!userId) {
       return NextResponse.json(
         { message: "Unauthorized." },
         { status: 401 }
       );
     }
-
     const { id } = await context.params;
-
-    const existingExpense =
-      await prisma.expenseRecord.findFirst({
-        where: {
-          id,
-          userId,
-        },
-        select: {
-          id: true,
-        },
-      });
-
-    if (!existingExpense) {
+    const existingIncome = await prisma.incomeRecord.findFirst({
+      where: {
+        id,
+        userId,
+      },
+      select: {
+        id: true,
+      },
+    });
+    if (!existingIncome) {
       return NextResponse.json(
-        { message: "Expense record not found." },
+        { message: "Income record not found." },
         { status: 404 }
       );
     }
-
-    await prisma.expenseRecord.delete({
+    await prisma.incomeRecord.delete({
       where: {
-        id: existingExpense.id,
+        id: existingIncome.id,
       },
     });
-
     return NextResponse.json({
-      message: "Expense record deleted successfully.",
+      message: "Income record deleted successfully.",
     });
   } catch (error) {
-    console.error(
-      "DELETE /api/expenses/[id] error:",
-      error
-    );
-
+    console.error("DELETE /api/income/[id] error:", error);
     return NextResponse.json(
-      { message: "Unable to delete expense record." },
+      { message: "Unable to delete income record." },
       { status: 500 }
     );
   }

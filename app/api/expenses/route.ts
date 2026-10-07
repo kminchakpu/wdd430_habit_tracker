@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { getAuthenticatedUserId } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
 interface ExpenseRequestBody {
   description?: string;
@@ -10,10 +10,17 @@ interface ExpenseRequestBody {
 }
 
 function parseDate(value?: string) {
-  if (!value) return null;
+  if (!value) {
+    return null;
+  }
 
   const date = new Date(`${value}T00:00:00.000Z`);
-  return Number.isNaN(date.getTime()) ? null : date;
+
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  return date;
 }
 
 function serializeExpense(record: {
@@ -35,21 +42,41 @@ function serializeExpense(record: {
 export async function GET() {
   try {
     const userId = await getAuthenticatedUserId();
+
     if (!userId) {
-      return NextResponse.json({ message: "Unauthorized." }, { status: 401 });
+      return NextResponse.json(
+        { message: "Unauthorized." },
+        { status: 401 }
+      );
     }
 
-    const expenseRecords = await prisma.expenseRecord.findMany({
-      where: { userId },
-      orderBy: [{ date: "desc" }, { createdAt: "desc" }],
-    });
+    const expenseRecords =
+      await prisma.expenseRecord.findMany({
+        where: {
+          userId,
+        },
+        orderBy: [
+          {
+            date: "desc",
+          },
+          {
+            createdAt: "desc",
+          },
+        ],
+      });
 
-    return NextResponse.json(expenseRecords.map(serializeExpense));
+    return NextResponse.json(
+      expenseRecords.map(serializeExpense)
+    );
   } catch (error) {
-    console.error("GET /api/expenses error:", error);
+    console.error(
+      "GET /api/expenses error:",
+      error
+    );
+
     return NextResponse.json(
       { message: "Unable to retrieve expense records." },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -57,60 +84,74 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const userId = await getAuthenticatedUserId();
+
     if (!userId) {
-      return NextResponse.json({ message: "Unauthorized." }, { status: 401 });
+      return NextResponse.json(
+        { message: "Unauthorized." },
+        { status: 401 }
+      );
     }
 
-    const body = (await request.json()) as ExpenseRequestBody;
+    const body =
+      (await request.json()) as ExpenseRequestBody;
+
     const description = body.description?.trim();
-    const amount = Number(body.amount);
     const category = body.category?.trim();
+    const amount = Number(body.amount);
     const date = parseDate(body.date);
 
     if (!description) {
       return NextResponse.json(
         { message: "Description is required." },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     if (!Number.isFinite(amount) || amount <= 0) {
       return NextResponse.json(
         { message: "Amount must be greater than zero." },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     if (!category) {
       return NextResponse.json(
         { message: "Category is required." },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     if (!date) {
       return NextResponse.json(
         { message: "A valid date is required." },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
-    const expenseRecord = await prisma.expenseRecord.create({
-      data: {
-        userId,
-        amount,
-        category,
-        note: description,
-        date,
-      },
-    });
+    const expenseRecord =
+      await prisma.expenseRecord.create({
+        data: {
+          userId,
+          amount,
+          category,
+          note: description,
+          date,
+        },
+      });
 
-    return NextResponse.json(serializeExpense(expenseRecord), { status: 201 });
+    return NextResponse.json(
+      serializeExpense(expenseRecord),
+      { status: 201 }
+    );
   } catch (error) {
-    console.error("POST /api/expenses error:", error);
+    console.error(
+      "POST /api/expenses error:",
+      error
+    );
+
     return NextResponse.json(
       { message: "Unable to create expense record." },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

@@ -34,6 +34,13 @@ function parseDate(value: string | null): Date | null {
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
+function startOfTodayUtc() {
+  const now = new Date();
+  return new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+  );
+}
+
 function getDateRange(request: Request): AnalyticsDateRange | null {
   const { searchParams } = new URL(request.url);
   const startDateParam = searchParams.get("startDate");
@@ -43,8 +50,10 @@ function getDateRange(request: Request): AnalyticsDateRange | null {
     return null;
   }
 
-  const startDate = startDateParam ? parseDate(startDateParam) : new Date();
-  const endDate = endDateParam ? parseDate(endDateParam) : new Date();
+  const startDate = startDateParam
+    ? parseDate(startDateParam)
+    : startOfTodayUtc();
+  const endDate = endDateParam ? parseDate(endDateParam) : startOfTodayUtc();
 
   if (!startDate || !endDate) {
     return null;
@@ -102,7 +111,12 @@ function buildMonthlyData(
   }
 
   for (const record of incomeRecords) {
-    if (!record.date) continue;
+    if (!record.date) {
+      for (const month of months.values()) {
+        month.income += Number(record.amount);
+      }
+      continue;
+    }
     const month = months.get(monthKey(record.date));
     if (month) month.income += Number(record.amount);
   }
@@ -187,7 +201,7 @@ export async function GET(request: Request) {
       water,
     ] = await Promise.all([
       prisma.incomeRecord.findMany({
-        where: { userId, date: dateFilter },
+        where: { userId, OR: [{ date: dateFilter }, { date: null }] },
       }),
       prisma.expenseRecord.findMany({
         where: { userId, date: dateFilter },

@@ -1,70 +1,51 @@
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type {
+  SelectHTMLAttributes,
+  ReactNode,
+} from "react";
 
-type ButtonVariant =
-  | "primary"
-  | "secondary"
-  | "danger"
-  | "outline";
-
-type ButtonSize =
-  | "sm"
-  | "md"
-  | "lg";
-
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface SelectProps
+  extends SelectHTMLAttributes<HTMLSelectElement> {
+  label?: string;
+  error?: string;
   children: ReactNode;
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  isLoading?: boolean;
-  fullWidth?: boolean;
 }
 
-export default function Button({
+export default function Select({
+  label,
+  error,
   children,
-  variant = "primary",
-  size = "md",
-  isLoading = false,
-  fullWidth = false,
-  disabled,
+  id,
   className = "",
   ...props
-}: ButtonProps) {
-  const baseStyles =
-    "inline-flex items-center justify-center rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
-
-  const variantStyles: Record<ButtonVariant, string> = {
-    primary:
-      "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
-    secondary:
-      "bg-slate-200 text-slate-900 hover:bg-slate-300 focus:ring-slate-400",
-    danger:
-      "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
-    outline:
-      "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 focus:ring-blue-500",
-  };
-
-  const sizeStyles: Record<ButtonSize, string> = {
-    sm: "px-3 py-2 text-sm",
-    md: "px-4 py-3 text-sm",
-    lg: "px-6 py-3.5 text-base",
-  };
-
+}: SelectProps) {
   return (
-    <button
-      disabled={disabled || isLoading}
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${
-        fullWidth ? "w-full" : ""
-      } ${className}`}
-      {...props}
-    >
-      {isLoading && (
-        <span
-          className="mr-2 size-4 animate-spin rounded-full border-2 border-current border-t-transparent"
-          aria-hidden="true"
-        />
+    <div className="w-full">
+      {label && (
+        <label
+          htmlFor={id}
+          className="mb-2 block text-sm font-medium text-slate-700"
+        >
+          {label}
+        </label>
       )}
 
-      {isLoading ? "Loading..." : children}
-    </button>
+      <select
+        id={id}
+        className={`w-full rounded-lg border bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:ring-2 ${
+          error
+            ? "border-red-500 focus:border-red-500 focus:ring-red-200"
+            : "border-slate-300 focus:border-blue-500 focus:ring-blue-200"
+        } ${className}`}
+        {...props}
+      >
+        {children}
+      </select>
+
+      {error && (
+        <p className="mt-1 text-sm text-red-600">
+          {error}
+        </p>
+      )}
+    </div>
   );
 }
