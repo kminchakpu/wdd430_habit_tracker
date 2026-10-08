@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import SavingsCard from "@/components/finance/SavingsCard";
 import { getAuthenticatedUserId } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -8,15 +9,23 @@ const currency = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
-function monthKey(date: Date) {
-  return date.toISOString().slice(0, 7);
+const TIME_ZONE = "America/Hermosillo";
+
+function localDay(date: Date) {
+  return date.toLocaleDateString("en-CA", { timeZone: TIME_ZONE });
 }
 
 export default async function FinancePage() {
   const userId = await getAuthenticatedUserId();
-  if (!userId) return null;
+  if (!userId) {
+    redirect("/login");
+  }
 
-  const [savingsRecords, expenseRecords] = await Promise.all([
+  const [incomeRecords, savingsRecords, expenseRecords] = await Promise.all([
+    prisma.incomeRecord.findMany({
+      where: { userId },
+      orderBy: [{ date: "desc" }, { createdAt: "desc" }],
+    }),
     prisma.savingsRecord.findMany({
       where: { userId },
       orderBy: [{ date: "desc" }, { createdAt: "desc" }],
@@ -27,6 +36,14 @@ export default async function FinancePage() {
     }),
   ]);
 
+  const income = incomeRecords.map((record) => ({
+    id: record.id,
+    amount: Number(record.amount),
+    source: record.source,
+    date: record.date
+      ? record.date.toISOString().slice(0, 10)
+      : localDay(record.createdAt),
+  }));
   const savings = savingsRecords.map((record) => ({
     id: record.id,
     amount: Number(record.amount),
@@ -40,9 +57,12 @@ export default async function FinancePage() {
     date: record.date.toISOString().slice(0, 10),
   }));
 
-  const currentMonth = monthKey(new Date());
+  const currentMonth = localDay(new Date()).slice(0, 7);
   const totalSavings = savings.reduce((total, item) => total + item.amount, 0);
-  const totalExpenses = expenses.reduce(
+  const monthIncomeItems = income.filter((item) =>
+    item.date.startsWith(currentMonth),
+  );
+  const monthIncome = monthIncomeItems.reduce(
     (total, item) => total + item.amount,
     0,
   );
@@ -52,7 +72,7 @@ export default async function FinancePage() {
   const monthExpenses = expenses
     .filter((item) => item.date.startsWith(currentMonth))
     .reduce((total, item) => total + item.amount, 0);
-  const monthBalance = monthSavings - monthExpenses;
+  const monthBalance = monthIncome - monthExpenses - monthSavings;
 
   const categoryTotals = Object.entries(
     expenses.reduce<Record<string, number>>((acc, item) => {
@@ -66,6 +86,13 @@ export default async function FinancePage() {
   const topCategoryTotal = categoryTotals[0]?.total ?? 0;
 
   const recentActivity = [
+    ...income.map((item) => ({
+      id: `income-${item.id}`,
+      label: item.source,
+      amount: item.amount,
+      date: item.date,
+      type: "income" as const,
+    })),
     ...savings.map((item) => ({
       id: `saving-${item.id}`,
       label: item.note || "Savings deposit",
@@ -104,12 +131,16 @@ export default async function FinancePage() {
       >
         <SavingsCard name="Total saved" savings={totalSavings} />
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-medium text-slate-600">Total spent</p>
+          <p className="text-sm font-medium text-slate-600">
+            Income this month
+          </p>
           <p className="mt-2 text-3xl font-bold text-slate-900">
-            {currency.format(totalExpenses)}
+            {currency.format(monthIncome)}
           </p>
           <p className="mt-1 text-sm text-slate-500">
-            {expenses.length} {expenses.length === 1 ? "expense" : "expenses"}
+            {monthIncomeItems.length}{" "}
+            {monthIncomeItems.length === 1 ? "income record" : "income records"}{" "}
+            this month
           </p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -118,7 +149,7 @@ export default async function FinancePage() {
             {currency.format(monthExpenses)}
           </p>
           <p className="mt-1 text-sm text-slate-500">
-            Saved {currency.format(monthSavings)}
+            Saved {currency.format(monthSavings)} this month
           </p>
         </div>
         <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -130,7 +161,9 @@ export default async function FinancePage() {
           >
             {currency.format(monthBalance)}
           </p>
-          <p className="mt-1 text-sm text-slate-500">Savings minus expenses</p>
+          <p className="mt-1 text-sm text-slate-500">
+            Income minus expenses and savings
+          </p>
         </div>
       </section>
 
@@ -214,8 +247,8 @@ export default async function FinancePage() {
             >
               Recent activity
             </h2>
-            <p className="m-1 text-sm text-slate-600">
-              Your latest savings and expenses.
+            <p className="mt-1 text-sm text-slate-600">
+              Your latest income, savings, and expenses.
             </p>
           </div>
           <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
@@ -240,21 +273,27 @@ export default async function FinancePage() {
                     <div className="flex items-center gap-3">
                       <span
                         className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                          item.type === "saving"
-                            ? "bg-emerald-100 text-emerald-800"
-                            : "bg-slate-100 text-slate-700"
+                          item.type === "income"
+                            ? "bg-blue-100 text-blue-800"
+                            : item.type === "saving"
+                              ? "bg-emerald-100 text-emerald-800"
+                              : "bg-slate-100 text-slate-700"
                         }`}
                       >
-                        {item.type === "saving" ? "Saving" : "Expense"}
+                        {item.type === "income"
+                          ? "Income"
+                          : item.type === "saving"
+                            ? "Saving"
+                            : "Expense"}
                       </span>
                       <span
                         className={`font-semibold ${
-                          item.type === "saving"
-                            ? "text-emerald-700"
-                            : "text-slate-900"
+                          item.type === "expense"
+                            ? "text-slate-900"
+                            : "text-emerald-700"
                         }`}
                       >
-                        {item.type === "saving" ? "+" : "-"}
+                        {item.type === "expense" ? "-" : "+"}
                         {currency.format(item.amount)}
                       </span>
                     </div>
