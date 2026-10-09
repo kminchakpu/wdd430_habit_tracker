@@ -204,7 +204,7 @@ export default async function AnalyticsPage({
     `whitespace-nowrap border-b-2 px-4 py-3 text-sm font-medium ${selected ? "border-emerald-600 text-emerald-700" : "border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-800"}`;
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto min-h-screen max-w-7xl bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
       <header className="mb-8">
         <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-amber-300">
           Your progress
